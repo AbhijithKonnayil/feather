@@ -1,7 +1,6 @@
-# Feather
-
 ![Feather Logo](assets/feather_brand.png)
 
+# Feather
 A modern, open-source **Flutter component library** with a focus on speed, simplicity, and consistency.  
 
 ---

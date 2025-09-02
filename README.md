@@ -1,2 +1,26 @@
-# feather
-This project is an open-source Flutter component library designed to speed up development with prebuilt UI templates, widgets, and layouts. It includes a CLI for faster project setup, a live playground for trying components instantly, and an open community-driven approach for contributions.
+# Feather
+
+![Feather Logo](assets/feather_brand.png)
+
+A modern, open-source **Flutter component library** with a focus on speed, simplicity, and consistency.  
+
+---
+
+## 🚀 Features
+
+---
+
+## 📦 Repository Structure
+
+---
+
+## 🤝 Contributing
+Feather is open-source!  
+We welcome contributors to add new components, improve documentation, or enhance the tooling.  
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+---
+
+## 📜 License
+Feather is licensed under the **MIT License** – free to use, modify, and distribute.

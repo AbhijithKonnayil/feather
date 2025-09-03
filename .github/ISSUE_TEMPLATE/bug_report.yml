@@ -1,0 +1,104 @@
+name: Bug report
+description: Report a reproducible problem in Feather
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out a bug report!
+        Please provide as much detail as possible to help us reproduce and fix the issue.
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Pre-submission checklist
+      options:
+        - label: I have searched existing issues and discussions
+          required: true
+        - label: I am using the latest released version (or main) if possible
+          required: false
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug description
+      description: A clear and concise description of what the bug is.
+      placeholder: Describe the problem you are experiencing.
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      description: Provide a minimal, complete, and verifiable reproduction of the issue.
+      placeholder: |
+        1. Go to '...'
+        2. Run '...'
+        3. Observe error '...'
+      render: bash
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What did you expect to happen?
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: What actually happened? Include full error messages if applicable.
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Feather version
+      placeholder: e.g. 1.2.3 or commit SHA
+    validations:
+      required: false
+
+  - type: input
+    id: os
+    attributes:
+      label: Operating system and version
+      placeholder: e.g. Ubuntu 24.04, macOS 14.5, Windows 11 24H2
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant logs and screenshots
+      description: Please paste logs or add screenshots to help explain the problem.
+      render: shell
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: affected
+    attributes:
+      label: Affected areas
+      description: Select all areas that are likely impacted by this change.
+      options:
+        - label: CLI
+        - label: UI Components
+        - label: Others
+    validations:
+      required: false
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Additional context
+      description: Add any other context about the problem here.
+    validations:
+      required: false
+
+

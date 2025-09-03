@@ -1,0 +1,82 @@
+name: Feature request
+description: Suggest an idea or improvement for Feather
+title: "[Feature]: "
+labels:
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting a feature! Please provide as much detail as possible.
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Pre-submission checklist
+      options:
+        - label: I have searched existing issues and discussions for similar requests
+          required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem statement
+      description: Is your feature request related to a problem? Please describe.
+      placeholder: I am frustrated when...
+    validations:
+      required: false
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+      description: Describe the solution you'd like to see.
+      placeholder: It would be great if Feather could...
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Describe any alternative solutions or features you've considered.
+    validations:
+      required: false
+
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope and impact
+      description: Outline the scope, affected areas, and potential impact or risks.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: affected
+    attributes:
+      label: Affected areas
+      description: Select all areas that are likely impacted by this change.
+      options:
+        - label: CLI
+        - label: UI Components
+        - label: Others
+    validations:
+      required: false
+
+  - type: input
+    id: version
+    attributes:
+      label: Feather version (if relevant)
+      placeholder: e.g. 1.2.3 or commit SHA
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional context
+      description: Add any other context, mockups, or screenshots.
+    validations:
+      required: false
+
+

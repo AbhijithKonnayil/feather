@@ -10,6 +10,7 @@ class WidgetMetaJsonGenerator extends GeneratorForAnnotation<WidgetMeta> {
     ConstantReader annotation,
     BuildStep buildStep,
   ) {
+    final id = annotation.read('id').stringValue;
     final name = annotation.read('name').stringValue;
     final description = annotation.read('description').stringValue;
     final dependencies = annotation
@@ -17,12 +18,17 @@ class WidgetMetaJsonGenerator extends GeneratorForAnnotation<WidgetMeta> {
         .listValue
         .map((v) => v.toStringValue() ?? '')
         .toList();
+    final uri = element.library?.uri; // safer than .uri
+    final decoded = uri != null ? Uri.decodeComponent(uri.toString()) : null;
 
     // Example: return as a JSON string
     return '''
-{"element":"${element.runtimeType}",
+{
+  "id":"$id",
   "name": "$name",
   "description": "$description",
+  "import":"$decoded",
+  "example":"exampleWidgetBuilder()",
   "dependencies": ${dependencies.map((d) => '"$d"').toList()}
 }
 ''';

@@ -4,6 +4,7 @@ enum WidgetType { block, ui }
 
 class WidgetMeta {
   const WidgetMeta({
+    required this.id,
     required this.name,
     required this.description,
     required this.type,
@@ -11,6 +12,7 @@ class WidgetMeta {
     this.dependencies = const [],
     this.registryDependencies = const [],
   });
+  final String id;
   final String name;
   final String description;
   final WidgetType type;

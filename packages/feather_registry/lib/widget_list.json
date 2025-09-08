@@ -1,0 +1,32 @@
+[
+  {
+    "element": "ClassElementImpl",
+    "name": "Feather Button 123",
+    "description": "A simple Feather Button for demo",
+    "dependencies": []
+  },
+  {
+    "element": "ClassElementImpl",
+    "name": "Feather Text Button 1",
+    "description": "A simple Feather Button for demo",
+    "dependencies": []
+  },
+  {
+    "element": "ClassElementImpl",
+    "name": "Feather Button 123",
+    "description": "A simple Feather Button for demo",
+    "dependencies": []
+  },
+  {
+    "element": "ClassElementImpl",
+    "name": "Feather 741",
+    "description": "A simple Feather Button for demo",
+    "dependencies": []
+  },
+  {
+    "element": "ClassElementImpl",
+    "name": "Feather 987",
+    "description": "A simple Feather Button for demo",
+    "dependencies": []
+  }
+]

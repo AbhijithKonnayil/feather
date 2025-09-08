@@ -1,0 +1,8 @@
+builders:
+  widget_meta_json_builder:
+    import: "package:feather_generator/feather_generator.dart"
+    builder_factories: ["widgetMetaJsonBuilder"]
+    build_extensions: { ".dart": [".feather_widget_meta.json"] }
+    auto_apply: dependents
+    build_to: cache
+    required_inputs: [".dart"]

@@ -11,6 +11,8 @@ dependencies:
     sdk: flutter
   widgetbook: ^3.16.0
   widgetbook_annotation: ^3.7.0
+  feather_core:
+    path: ../feather_core
   feather_ui:
     path: ../feather_ui
 

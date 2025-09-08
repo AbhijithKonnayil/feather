@@ -1,4 +1,5 @@
 import 'package:catalog/catalog/list.dart';
+import 'package:feather_core/feather_core.dart' show WidgetDetails;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -30,7 +31,7 @@ class _CatalogPageBodyState extends State<_CatalogPageBody> {
         ? widgets
         : widgets.where((meta) {
             String label = meta.name;
-            final w = meta.widget;
+            final w = meta.example();
             if (label.isEmpty) {
               if (w is ElevatedButton ||
                   w is OutlinedButton ||
@@ -128,7 +129,7 @@ class _CatalogPageBodyState extends State<_CatalogPageBody> {
     );
   }
 
-  GridView buildGridView(List<WidgetMeta> filteredWidgets) {
+  GridView buildGridView(List<WidgetDetails> filteredWidgets) {
     return GridView.builder(
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
@@ -148,7 +149,9 @@ class _CatalogPageBodyState extends State<_CatalogPageBody> {
             padding: const EdgeInsets.all(18.0),
             child: Column(
               children: [
-                Expanded(child: Center(child: filteredWidgets[index].widget)),
+                Expanded(
+                  child: Center(child: filteredWidgets[index].example()),
+                ),
                 const SizedBox(height: 12),
                 Container(
                   decoration: BoxDecoration(

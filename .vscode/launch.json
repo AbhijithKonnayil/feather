@@ -20,6 +20,27 @@
       "request": "launch",
       "type": "dart",
       "flutterMode": "release"
+    },
+    {
+      "name": "catalog",
+      "cwd": "packages/catalog",
+      "request": "launch",
+      "type": "dart",
+      "args": ["--no-web-experimental-hot-reload"]
+    },
+    {
+      "name": "catalog (profile mode)",
+      "cwd": "packages/catalog",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "profile"
+    },
+    {
+      "name": "catalog (release mode)",
+      "cwd": "packages/catalog",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "release"
     }
   ]
 }

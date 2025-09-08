@@ -2,3 +2,4 @@
 library;
 
 export 'src/feather_ui.dart';
+export 'widgets/button.dart';

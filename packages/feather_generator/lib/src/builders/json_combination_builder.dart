@@ -20,14 +20,16 @@ class JsonCombinationBuilder extends Builder {
     }
 
     // Encode once, at the end
-    final jsonString = jsonEncode(allMaps);
+    const encoder = JsonEncoder.withIndent('  '); // 2 spaces
 
-    final assetId = AssetId('feather_ui', 'lib/list.copy.json');
+    final jsonString = encoder.convert(allMaps);
+
+    final assetId = AssetId('feather_ui', 'lib/.generated/list.g.json');
     await buildStep.writeAsString(assetId, jsonString);
   }
 
   @override
   final buildExtensions = const {
-    r'$lib$': ['list.copy.json'], // one output per package
+    r'$lib$': ['.generated/list.g.json'], // one output per package
   };
 }

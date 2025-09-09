@@ -17,6 +17,8 @@ dependencies:
     path: ../feather_core
   feather_ui:
     path: ../feather_ui
+  sidebarx: ^0.17.2
+  google_fonts: ^6.3.1
 
 dev_dependencies:
   flutter_test:
@@ -25,3 +27,5 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/images/

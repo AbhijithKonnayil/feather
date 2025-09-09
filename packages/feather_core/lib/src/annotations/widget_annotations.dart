@@ -1,3 +1,4 @@
+import 'package:feather_core/src/core/enum.dart';
 import 'package:feather_core/src/models/file_meta.dart' show FileMeta;
 
 enum WidgetType { block, ui }
@@ -11,6 +12,8 @@ class WidgetMeta {
     required this.files,
     this.dependencies = const [],
     this.registryDependencies = const [],
+    this.widgetCategories = const [],
+    this.widgetGroups = const [],
   });
   final String id;
   final String name;
@@ -19,6 +22,8 @@ class WidgetMeta {
   final List<String> dependencies;
   final List<String> registryDependencies;
   final List<FileMeta> files;
+  final List<WidgetComponent> widgetCategories;
+  final List<WidgetGroup> widgetGroups;
 
   dynamic toJson() {
     return {

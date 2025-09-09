@@ -120,3 +120,4 @@ app.*.symbols
 
 #generated
 **/.generated/**
+**/_generated/

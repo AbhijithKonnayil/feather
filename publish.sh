@@ -5,3 +5,4 @@ dart run build_runner build --delete-conflicting-outputs
 
 echo "Copying generated files..."
 cp lib/.generated/list.g.json ../feather_registry/lib/widget_list.json
+cp lib/.generated/list.g.dart ../catalog/lib/catalog/widget_list.g.dart

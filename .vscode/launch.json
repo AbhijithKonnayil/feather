@@ -23,21 +23,21 @@
     },
     {
       "name": "catalog",
-      "cwd": "packages/catalog",
+      "cwd": "packages/catalog_website",
       "request": "launch",
       "type": "dart",
       "args": ["--no-web-experimental-hot-reload"]
     },
     {
       "name": "catalog (profile mode)",
-      "cwd": "packages/catalog",
+      "cwd": "packages/catalog_website",
       "request": "launch",
       "type": "dart",
       "flutterMode": "profile"
     },
     {
       "name": "catalog (release mode)",
-      "cwd": "packages/catalog",
+      "cwd": "packages/catalog_website",
       "request": "launch",
       "type": "dart",
       "flutterMode": "release"

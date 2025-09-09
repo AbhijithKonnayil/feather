@@ -121,3 +121,5 @@ app.*.symbols
 #generated
 **/.generated/**
 **/_generated/
+
+packages/catalog_website/catalog_website.iml

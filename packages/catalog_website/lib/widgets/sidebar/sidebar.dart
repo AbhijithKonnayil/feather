@@ -1,3 +1,4 @@
+import 'package:catalog_website/features/catalog/bloc/catalog_bloc.dart';
 import 'package:catalog_website/widgets/searchbox.dart' show FeatherSearchBox;
 import 'package:catalog_website/widgets/sidebar/cubit/sidebar_cubit.dart';
 import 'package:feather_core/feather_core.dart';
@@ -31,7 +32,11 @@ class FeatherSidebar extends StatelessWidget {
             items: state.menus
                 .map(
                   (e) => SidebarXItem(
-                    onTap: () {},
+                    onTap: () {
+                      context.read<CatalogBloc>().add(
+                        CategoryGroupSelected(labeledEnum: e.value),
+                      );
+                    },
                     label: e.label,
                     iconBuilder: (selected, hovered) {
                       if (context.read<SidebarCubit>().controller.extended) {
@@ -202,22 +207,10 @@ class HeaderAdapter {
   final bool isSelected;
 
   HeaderAdapter({required this.label, required this.isSelected});
-  Widget getMenuWidget(BuildContext content, bool expanded) {
-    if (false)
-      return Container(
-        height: 45,
-        child: Text(
-          label,
-          style: TextStyle(
-            color: Colors.white,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-      );
-
+  Widget getMenuWidget(BuildContext context, bool expanded) {
     return InkWell(
       onTap: () {
-        content.read<SidebarCubit>().headerMenuClicked(label);
+        context.read<SidebarCubit>().headerMenuClicked(label, context);
       },
       borderRadius: BorderRadius.circular(3),
       child: Container(
@@ -251,9 +244,9 @@ class HeaderAdapter {
 }
 
 class SidebarItemAdapter {
-  final String label;
-  final VoidCallback? onPressed;
-  SidebarItemAdapter({required this.label, this.onPressed});
+  String get label => value.label;
+  final LabeledEnum value;
+  SidebarItemAdapter({required this.value});
   Widget iconBuilder() {
     return SizedBox.shrink();
   }

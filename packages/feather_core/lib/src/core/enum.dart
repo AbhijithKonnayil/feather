@@ -1,4 +1,9 @@
-enum WidgetComponent {
+/// A contract for enums that have a human-friendly label.
+abstract class LabeledEnum {
+  String get label;
+}
+
+enum WidgetComponent implements LabeledEnum {
   button('Button'),
   appBar('App Bar'),
   textField('Text Field'),
@@ -10,14 +15,13 @@ enum WidgetComponent {
   sidebar('Sidebar'),
   charts('Charts');
 
-  /// Constructor
   const WidgetComponent(this.label);
 
-  /// Human-friendly display label
+  @override
   final String label;
 }
 
-enum WidgetGroup {
+enum WidgetGroup implements LabeledEnum {
   formsInputs('Forms & Inputs'),
   navigation('Navigation'),
   feedback('Feedback'),
@@ -29,5 +33,6 @@ enum WidgetGroup {
 
   const WidgetGroup(this.label);
 
+  @override
   final String label;
 }

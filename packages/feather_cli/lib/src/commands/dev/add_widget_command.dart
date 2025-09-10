@@ -76,6 +76,8 @@ part '$fileName.example.dart';
   description: 'A simple Feather Button for demo',
   type: WidgetType.ui,
   files: [],
+  //TODO: add catagories
+  widgetCategories: ,
 )
 class $widgetName extends StatelessWidget {
 

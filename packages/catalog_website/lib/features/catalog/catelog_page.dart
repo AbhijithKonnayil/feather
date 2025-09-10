@@ -33,6 +33,7 @@ class _CatalogPageBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey.shade100,
       body: Row(
         children: [
           buildSidebar(),
@@ -149,7 +150,7 @@ class _CatalogPageBody extends StatelessWidget {
           }
           return buildGridView(state.widgets);
         }
-        return Container(color: Colors.amber);
+        return SizedBox.shrink();
       },
     );
   }

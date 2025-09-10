@@ -1,0 +1,17 @@
+builders:
+  widget_meta_json_builder:
+    import: "package:feather_generator/feather_generator.dart"
+    builder_factories: ["widgetMetaJsonBuilder"]
+    build_extensions: { ".dart": [".feather_widget_meta.json"] }
+    auto_apply: dependents
+    build_to: cache
+    required_inputs: [".dart"]
+    runs_before: [":json_combination_builder"]
+
+  json_combination_builder:
+    import: "package:feather_generator/feather_generator.dart"
+    builder_factories: ["widgetJsonCombinationBuilder"]
+    build_extensions: { ".dart": [".feather_widget_meta.json"] }
+    auto_apply: dependents
+    build_to: source
+    required_inputs: [".dart"]

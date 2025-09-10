@@ -17,8 +17,10 @@ class CatalogBloc extends Bloc<CatalogEvent, CatalogState> {
     CategoryGroupSelected event,
     Emitter<CatalogState> emit,
   ) {
-    if (event is WidgetComponent) {
-      final list = widgetList.where((e) => true).toList();
+    if (event.labeledEnum is WidgetComponent) {
+      final list = widgetList.where((e) {
+        return e.widgetCategories.contains(event.labeledEnum);
+      }).toList();
       emit(CatalogWidgetsLoadedState(widgets: list));
     } else {
       final list = widgetList.where((e) => true).toList();

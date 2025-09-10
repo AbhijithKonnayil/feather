@@ -7,6 +7,7 @@ import 'package:feather_core/feather_core.dart' show WidgetDetails;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CatalogPage extends StatelessWidget {
   const CatalogPage({super.key});
@@ -126,6 +127,26 @@ class _CatalogPageBody extends StatelessWidget {
     return BlocBuilder<CatalogBloc, CatalogState>(
       builder: (context, state) {
         if (state is CatalogWidgetsLoadedState) {
+          if (state.widgets.isEmpty) {
+            return Center(
+              child: SizedBox.square(
+                dimension: 500,
+                child: Stack(
+                  alignment: Alignment.bottomCenter,
+                  children: [
+                    Image.asset("assets/images/no_items.png"),
+                    Text(
+                      "No Widgets",
+                      style: GoogleFonts.alexBrush(
+                        color: Colors.red.shade300,
+                        fontSize: 45,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }
           return buildGridView(state.widgets);
         }
         return Container(color: Colors.amber);

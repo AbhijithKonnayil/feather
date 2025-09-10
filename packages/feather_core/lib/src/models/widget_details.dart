@@ -13,6 +13,7 @@ class WidgetDetails extends WidgetMeta {
     required super.description,
     required super.type,
     required super.files,
+    required super.widgetCategories,
   });
 
   String get installCommand => 'feather add $id';

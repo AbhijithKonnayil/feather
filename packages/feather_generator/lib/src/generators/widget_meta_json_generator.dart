@@ -18,6 +18,12 @@ class WidgetMetaJsonGenerator extends GeneratorForAnnotation<WidgetMeta> {
         .listValue
         .map((v) => v.toStringValue() ?? '')
         .toList();
+
+    final widgetCategories = annotation.read('widgetCategories').listValue.map((
+      v,
+    ) {
+      return v.getField('_name')!.toStringValue();
+    }).toList();
     final uri = element.library?.uri; // safer than .uri
     final decoded = uri != null ? Uri.decodeComponent(uri.toString()) : null;
 
@@ -29,7 +35,8 @@ class WidgetMetaJsonGenerator extends GeneratorForAnnotation<WidgetMeta> {
   "description": "$description",
   "import":"$decoded",
   "example":"exampleWidgetBuilder()",
-  "dependencies": ${dependencies.map((d) => '"$d"').toList()}
+  "dependencies": ${dependencies.map((d) => '"$d"').toList()},
+  "widgetCategories": ${widgetCategories.map((d) => '"$d"').toList()}
 }
 ''';
   }

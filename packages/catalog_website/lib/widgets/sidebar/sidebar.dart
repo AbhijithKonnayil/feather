@@ -18,7 +18,6 @@ class FeatherSidebar extends StatelessWidget {
     return BlocBuilder<SidebarCubit, SidebarState>(
       builder: (context, state) {
         if (state is SidebarLoaded) {
-          print(state.menus);
           return SidebarX(
             animationDuration: Duration(milliseconds: 250),
             controller: context.read<SidebarCubit>().controller,

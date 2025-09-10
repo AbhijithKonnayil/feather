@@ -28,6 +28,7 @@ class JsonCombinationBuilder extends Builder {
           final name = widgetMeta['name'] as String;
           final description = widgetMeta['description'] as String;
           final import = widgetMeta['import'] as String;
+          final widgetCategories = widgetMeta['widgetCategories'] as List;
           const type = 'ui';
           if (allMaps.containsKey(id)) {
             throw StateError(
@@ -42,6 +43,9 @@ class JsonCombinationBuilder extends Builder {
             ..writeln("description:'$description',")
             ..writeln('example:$id.buildExampleWidget,')
             ..writeln('type:WidgetType.$type,')
+            ..writeln(
+              'widgetCategories:${widgetCategories.map((e) => "WidgetComponent.$e").toList()},',
+            )
             ..writeln('files:[],')
             ..writeln('),');
           allMaps[id] = widgetMeta;

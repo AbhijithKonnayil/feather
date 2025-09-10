@@ -12,7 +12,7 @@ class WidgetMeta {
     required this.files,
     this.dependencies = const [],
     this.registryDependencies = const [],
-    this.widgetCategories = const [],
+    required this.widgetCategories,
     this.widgetGroups = const [],
   });
   final String id;

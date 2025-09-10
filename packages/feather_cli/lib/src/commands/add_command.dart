@@ -75,17 +75,6 @@ class AddCommand extends Command<int> {
     }
   }
 
-  bool isFlutterDirectory(String path) {
-    final pubspecFile = File('$path/pubspec.yaml');
-    if (!pubspecFile.existsSync()) {
-      return false;
-    }
-    final content = pubspecFile.readAsStringSync();
-    // Check for flutter dependency in pubspec.yaml
-    final flutterDepRegex = RegExp(r'^\s*flutter\s*:', multiLine: true);
-    return flutterDepRegex.hasMatch(content);
-  }
-
   Future<void> downloadFileToTarget(String url, String target) async {
     print(url);
     try {

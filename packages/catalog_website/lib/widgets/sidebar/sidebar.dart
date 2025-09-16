@@ -1,10 +1,8 @@
 import 'package:catalog_website/features/catalog/bloc/catalog_bloc.dart';
-import 'package:catalog_website/widgets/searchbox.dart' show FeatherSearchBox;
 import 'package:catalog_website/widgets/sidebar/cubit/sidebar_cubit.dart';
 import 'package:feather_core/feather_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:sidebarx/sidebarx.dart';
 
 class FeatherSidebar extends StatelessWidget {
@@ -33,7 +31,7 @@ class FeatherSidebar extends StatelessWidget {
                   (e) => SidebarXItem(
                     onTap: () {
                       context.read<CatalogBloc>().add(
-                        CategoryGroupSelected(labeledEnum: e.value),
+                        CategoryGroupSelected(widgetCategoryOrType: e.value),
                       );
                     },
                     label: e.label,
@@ -125,76 +123,15 @@ class FeatherSidebar extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
       child: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Flexible(
-                child: Container(
-                  height: 50,
-                  width: 50,
-                  padding: EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Image.asset(
-                    'assets/images/feather_logo.png',
-                    //height: 50,
-                    fit: BoxFit.contain,
-                  ),
-                ),
-              ),
-              if (extended) ...[
-                SizedBox(width: 10),
-                Flexible(
-                  child: Text(
-                    "Feather",
-                    style: GoogleFonts.alexBrush(
-                      color: Colors.white,
-                      fontSize: 40,
-                    ),
-                    overflow: TextOverflow
-                        .ellipsis, // optional: show "..." if too long
-                  ),
-                ),
-              ],
-            ],
-          ),
-          const SizedBox(height: 12),
-
+          ...headerMenu.map((e) => e.getMenuWidget(context, extended)),
           Container(
             height: 1,
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(
                 colors: [Color(0xFF00C9A7), Color(0xFF0072FF)],
               ),
-              borderRadius: BorderRadius.all(Radius.circular(3)),
             ),
           ),
-          const SizedBox(height: 16),
-          SizedBox(
-            height: 60,
-            child: extended
-                ? Row(
-                    children: [
-                      Expanded(
-                        child: FeatherSearchBox(
-                          controller: searchController,
-                          focusNode: searchFocusNode,
-                        ),
-                      ),
-                    ],
-                  )
-                : IconButton(
-                    icon: const Icon(Icons.search, color: Colors.grey),
-                    onPressed: () {
-                      context.read<SidebarCubit>().controller.setExtended(true);
-                      (searchFocusNode);
-                    },
-                  ),
-          ),
-          ...headerMenu.map((e) => e.getMenuWidget(context, extended)),
         ],
       ),
     );
@@ -209,7 +146,7 @@ class HeaderAdapter {
   Widget getMenuWidget(BuildContext context, bool expanded) {
     return InkWell(
       onTap: () {
-        context.read<SidebarCubit>().headerMenuClicked(label, context);
+        if (!isSelected) context.read<SidebarCubit>().headerMenuClicked(label);
       },
       borderRadius: BorderRadius.circular(3),
       child: Container(

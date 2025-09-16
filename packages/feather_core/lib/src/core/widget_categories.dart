@@ -3,6 +3,7 @@ import 'enum.dart';
 abstract class WidgetCategory implements LabeledEnum {}
 
 enum ComponentCategory implements WidgetCategory {
+  componentCategoty('Component Categoty'),
   formsInputs('Forms & Inputs'),
   navigation('Navigation'),
   feedback('Feedback'),
@@ -19,6 +20,7 @@ enum ComponentCategory implements WidgetCategory {
 }
 
 enum BlockCategory implements WidgetCategory {
+  blockCategoty('Block Categoty'),
   formBlock('Form Block'),
   cardBlock('Card Block'),
   listBlock('List Block'),
@@ -37,16 +39,14 @@ enum BlockCategory implements WidgetCategory {
 }
 
 enum PageCategory implements WidgetCategory {
-  formPage('Form Page'),
-  feedPage('Feed Page'),
-  dashboardPage('Dashboard Page'),
-  detailPage('Detail Page'),
-  listPage('List Page'),
-  mediaPage('Media Page'),
-  onboardingPage('Onboarding Page'),
-  authPage('Authentication Page'),
-  checkoutPage('Checkout Page'),
-  landingPage('Landing Page');
+  pageCategoty('Page Categoty'),
+  auth('Authentication'),
+  onboarding('Onboarding'),
+  social('Social'),
+  ecommerce('E-commerce'),
+  dashboard('Dashboard / Analytics'),
+  productivity('Productivity'),
+  media('Media');
 
   const PageCategory(this.label);
 

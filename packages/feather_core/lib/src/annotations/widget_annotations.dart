@@ -1,7 +1,4 @@
 import 'package:feather_core/src/core/enum.dart';
-import 'package:feather_core/src/core/widget_categories.dart';
-import 'package:feather_core/src/core/widget_scope.dart';
-import 'package:feather_core/src/core/widget_types.dart';
 import 'package:feather_core/src/models/file_meta.dart';
 
 abstract class WidgetMeta<T extends WidgetType, C extends WidgetCategory> {
@@ -9,7 +6,7 @@ abstract class WidgetMeta<T extends WidgetType, C extends WidgetCategory> {
     required this.id,
     required this.name,
     required this.description,
-    required this.type,
+    required this.scope,
     required this.files,
     required this.screens,
     this.dependencies = const [],
@@ -20,7 +17,7 @@ abstract class WidgetMeta<T extends WidgetType, C extends WidgetCategory> {
   final String id;
   final String name;
   final String description;
-  final WidgetScope type;
+  final WidgetScope scope;
   final List<String> dependencies;
   final List<String> registryDependencies;
   final List<FileMeta> files;
@@ -32,7 +29,7 @@ abstract class WidgetMeta<T extends WidgetType, C extends WidgetCategory> {
     return {
       'name': name,
       'description': description,
-      'type': type,
+      'type': scope,
       'dependencies': dependencies,
       'registryDependencies': registryDependencies,
       'files': files.map((file) => file.toJson()).toList(),
@@ -50,12 +47,11 @@ class PageMeta extends WidgetMeta<PageType, PageCategory> {
     required super.id,
     required super.name,
     required super.description,
-    required super.type,
     required super.files,
     required super.types,
     required super.categories,
     required super.screens,
-  });
+  }) : super(scope: WidgetScope.page);
 }
 
 class BlockMeta extends WidgetMeta<BlockType, BlockCategory> {
@@ -63,12 +59,11 @@ class BlockMeta extends WidgetMeta<BlockType, BlockCategory> {
     required super.id,
     required super.name,
     required super.description,
-    required super.type,
     required super.files,
     required super.types,
     required super.categories,
     required super.screens,
-  });
+  }) : super(scope: WidgetScope.block);
 }
 
 class ComponentMeta extends WidgetMeta<ComponentType, ComponentCategory> {
@@ -76,10 +71,9 @@ class ComponentMeta extends WidgetMeta<ComponentType, ComponentCategory> {
     required super.id,
     required super.name,
     required super.description,
-    required super.type,
     required super.files,
     required super.types,
     required super.categories,
     required super.screens,
-  });
+  }) : super(scope: WidgetScope.component);
 }

@@ -1,11 +1,11 @@
 import 'package:feather_core/src/annotations/widget_annotations.dart';
 
-class ComponentDetails extends ComponentMeta {
-  ComponentDetails({
+class WidgetDetails extends WidgetMeta {
+  WidgetDetails({
     required super.id,
     required super.name,
     required super.description,
-    required super.type,
+    required super.scope,
     required super.files,
     required super.types,
     required super.categories,

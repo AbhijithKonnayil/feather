@@ -3,6 +3,7 @@ import 'enum.dart';
 abstract class WidgetType implements LabeledEnum {}
 
 enum ComponentType implements WidgetType {
+  blockCategoty('Component Type'),
   button('Button'),
   appBar('App Bar'),
   textField('Text Field'),
@@ -21,6 +22,7 @@ enum ComponentType implements WidgetType {
 }
 
 enum BlockType implements WidgetType {
+  blockCategoty('Block Type'),
   formBlock('Form Block'),
   cardBlock('Card Block'),
   listBlock('List Block'),
@@ -39,6 +41,7 @@ enum BlockType implements WidgetType {
 }
 
 enum PageType implements WidgetType {
+  blockCategoty('Page Type'),
   formPage('Form Page'),
   feedPage('Feed Page'),
   dashboardPage('Dashboard Page'),

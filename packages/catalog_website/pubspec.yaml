@@ -19,6 +19,7 @@ dependencies:
     path: ../feather_ui
   sidebarx: ^0.17.2
   google_fonts: ^6.3.1
+  get_it: ^8.2.0
 
 dev_dependencies:
   flutter_test:

@@ -19,13 +19,14 @@ class WidgetMetaJsonGenerator extends GeneratorForAnnotation<WidgetMeta> {
         .map((v) => v.toStringValue() ?? '')
         .toList();
 
-    final widgetCategories = annotation.read('widgetCategories').listValue.map((
-      v,
-    ) {
-      return v.getField('_name')!.toStringValue();
-    }).toList();
+    final categories = extractEnumValues(annotation, 'categories');
+    final types = extractEnumValues(annotation, 'types');
+    final screens = extractEnumValues(annotation, 'screens');
+
     final uri = element.library?.uri; // safer than .uri
     final decoded = uri != null ? Uri.decodeComponent(uri.toString()) : null;
+    //TODO
+    final files = [];
 
     // Example: return as a JSON string
     return '''
@@ -34,10 +35,27 @@ class WidgetMetaJsonGenerator extends GeneratorForAnnotation<WidgetMeta> {
   "name": "$name",
   "description": "$description",
   "import":"$decoded",
-  "example":"exampleWidgetBuilder()",
-  "dependencies": ${dependencies.map((d) => '"$d"').toList()},
-  "widgetCategories": ${widgetCategories.map((d) => '"$d"').toList()}
+  "example":"buildExampleWidgetFor_$id()",
+  "screens":${screens.toJsonListString()},
+  "types": ${types.toJsonListString()},
+  "categories": ${categories.toJsonListString()}
 }
 ''';
   }
+
+  List<String> extractEnumValues(ConstantReader annotation, String fieldName) {
+    return annotation
+        .read(fieldName)
+        .listValue
+        .map((v) {
+          return v.getField('_name')?.toStringValue() ?? '';
+        })
+        .where((v) => v.isNotEmpty)
+        .toList();
+  }
+}
+
+extension QuotedList on List<String> {
+  /// Maps list of strings into `"a", "b", "c"` format
+  List<String> toJsonListString() => map((d) => '"$d"').toList();
 }

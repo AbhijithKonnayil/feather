@@ -15,6 +15,7 @@ class ComponentDetails extends ComponentMeta {
   final dynamic Function() example;
   String get installCommand => 'feather add $id';
 }
+
 /* 
 class WidgetDetails extends ComponentDetails<WidgetCategory> {
   ///Do Not use `Widget` as type

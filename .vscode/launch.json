@@ -1,0 +1,46 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "feather_example",
+      "cwd": "packages/feather_example",
+      "request": "launch",
+      "type": "dart"
+    },
+    {
+      "name": "feather_example (profile mode)",
+      "cwd": "packages/feather_example",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "profile"
+    },
+    {
+      "name": "feather_example (release mode)",
+      "cwd": "packages/feather_example",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "release"
+    },
+    {
+      "name": "catalog",
+      "cwd": "packages/catalog_website",
+      "request": "launch",
+      "type": "dart",
+      "args": ["--no-web-experimental-hot-reload"]
+    },
+    {
+      "name": "catalog (profile mode)",
+      "cwd": "packages/catalog_website",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "profile"
+    },
+    {
+      "name": "catalog (release mode)",
+      "cwd": "packages/catalog_website",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "release"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "terminal.integrated.profiles.linux": {
+    "bash": {
+      "path": "bash",
+      "args": ["--init-file", "${workspaceFolder}/.vscode/aliases.sh"]
+    }
+  },
+  "terminal.integrated.defaultProfile.linux": "bash",
+  "terminal.integrated.shellIntegration.enabled": true
+}

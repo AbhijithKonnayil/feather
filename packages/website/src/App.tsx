@@ -1,34 +1,71 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import Hero from './components/Hero'
+import Navbar from './components/Navbar'
+import Features from './components/Features'
+import Showcase from './components/Showcase'
+import Community from './components/Community'
+import Footer from './components/Footer'
 
-function App() {
-  const [count, setCount] = useState(0)
-
+// Docs Section Component
+const DocsSection = () => {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <section id="docs" className="py-20 bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            Get Started in Minutes
+          </h2>
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            Follow our comprehensive documentation to integrate Feather into your Flutter project.
+          </p>
+        </div>
+        
+        <div className="bg-white rounded-xl p-8 shadow-sm max-w-4xl mx-auto">
+          <div className="mb-6">
+            <h3 className="text-xl font-semibold text-gray-900 mb-4">Installation</h3>
+            <div className="bg-gray-900 rounded-lg p-4 text-green-400 font-mono text-sm">
+              flutter pub add feather_ui
+            </div>
+          </div>
+          
+          <div className="mb-6">
+            <h3 className="text-xl font-semibold text-gray-900 mb-4">Usage</h3>
+            <div className="bg-gray-900 rounded-lg p-4 text-green-400 font-mono text-sm">
+              <div>import 'package:feather_ui/feather_ui.dart';</div>
+              <div className="mt-2">FeatherButton(</div>
+              <div className="ml-4">text: 'Hello Feather!',</div>
+              <div className="ml-4">onPressed: () =&gt; print('Pressed!'),</div>
+              <div>)</div>
+            </div>
+          </div>
+          
+          <div className="text-center">
+            <a 
+              href="https://docs.featherui.dev" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="btn-primary"
+            >
+              View Full Documentation
+            </a>
+          </div>
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    </section>
+  )
+}
+
+// Main App Component
+function App() {
+  return (
+    <div className="min-h-screen">
+      <Navbar />
+      <Hero />
+      <Features />
+      <Showcase />
+      <Community />
+      <DocsSection />
+      <Footer />
+    </div>
   )
 }
 

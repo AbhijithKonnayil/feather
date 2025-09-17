@@ -6,8 +6,7 @@ import 'package:catalog_website/widgets/gradient_button.dart';
 import 'package:catalog_website/widgets/searchbox.dart';
 import 'package:catalog_website/widgets/sidebar/cubit/sidebar_cubit.dart';
 import 'package:catalog_website/widgets/sidebar/sidebar.dart';
-import 'package:feather_core/feather_core.dart'
-    show  WidgetDetails, WidgetScope;
+import 'package:feather_core/feather_core.dart' show WidgetDetails, WidgetScope;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

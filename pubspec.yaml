@@ -32,3 +32,12 @@ melos:
         #catalog_website
         mkdir -p ../catalog_website/lib/_generated
         cp lib/_generated/*.g.dart ../catalog_website/lib/_generated/
+  
+    format:
+      run: melos exec -- dart format .
+
+    pre-commit:
+      description: pre-commit git hook script
+      steps:
+        - format --output none --set-exit-if-changed
+        #- dart test --fail-fast .

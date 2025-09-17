@@ -1,7 +1,7 @@
 name: feather_generator
 description: A Very Good Project created by Very Good CLI.
-version: 0.1.0+1
-publish_to: none
+version: 0.0.1
+repository: https://github.com/AbhijithKonnayil/feather/tree/main/packages/feather_generator
 
 environment:
   sdk: ^3.8.0

@@ -1,7 +1,7 @@
 name: feather_registry
 description: A starting point for Dart libraries or applications.
-version: 1.0.0
-# repository: https://github.com/my_org/my_repo
+version: 0.0.1
+repository: https://github.com/AbhijithKonnayil/feather/tree/main/packages/feather_registry
 
 environment:
   sdk: ^3.9.0

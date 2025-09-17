@@ -61,7 +61,11 @@ class AddWidgetCommand extends FCommand {
       ),
       FileUtils.createFile(
         exampleFilePath,
-        createExampleFileContent(fileName: fileName, widgetName: widgetName),
+        createExampleFileContent(
+          fileName: fileName,
+          widgetName: widgetName,
+          widgetId: widgetId,
+        ),
       ),
     ]);
 
@@ -101,7 +105,7 @@ class $widgetName extends StatelessWidget {
  @override
   Widget build(BuildContext context) {
    return Container(
-      child: Text("TestBtn01"),
+      child: Text("$widgetName"),
     );
   }
 
@@ -113,12 +117,13 @@ class $widgetName extends StatelessWidget {
   String createExampleFileContent({
     required String widgetName,
     required String fileName,
+    required String widgetId,
   }) {
     final buffer = StringBuffer()
       ..write('''
 part of '$fileName.dart';
 
-Widget buildExampleWidget() {
+Widget buildExampleWidgetFor_$widgetId() {
   return $widgetName();
 }
 
@@ -129,6 +134,6 @@ Widget buildExampleWidget() {
 
   @override
   FutureOr<bool> validate() {
-    return FileUtils.isInsidePackage("feather_ui");
+    return FileUtils.isInsidePackage('feather_ui');
   }
 }

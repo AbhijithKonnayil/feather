@@ -13,7 +13,7 @@ class WidgetDetails extends WidgetMeta {
     required super.screens,
   });
   final dynamic Function() example;
-  String get installCommand => 'feather add $id';
+  String get installCommand => 'feather add ${scope.name} $id';
 }
 
 /* 

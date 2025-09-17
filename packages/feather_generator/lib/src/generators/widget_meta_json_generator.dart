@@ -12,6 +12,11 @@ class WidgetMetaJsonGenerator extends GeneratorForAnnotation<WidgetMeta> {
   ) {
     final id = annotation.read('id').stringValue;
     final name = annotation.read('name').stringValue;
+    final scope = annotation
+        .read('scope')
+        .objectValue
+        .getField('_name')
+        ?.toStringValue();
     final description = annotation.read('description').stringValue;
     final dependencies = annotation
         .read('dependencies')
@@ -38,7 +43,8 @@ class WidgetMetaJsonGenerator extends GeneratorForAnnotation<WidgetMeta> {
   "example":"buildExampleWidgetFor_$id()",
   "screens":${screens.toJsonListString()},
   "types": ${types.toJsonListString()},
-  "categories": ${categories.toJsonListString()}
+  "categories": ${categories.toJsonListString()},
+  "scope":"$scope"
 }
 ''';
   }

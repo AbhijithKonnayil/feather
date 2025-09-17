@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:catalog_website/_generated/blockList.g%20.dart';
-import 'package:catalog_website/_generated/componentList.g.dart';
-import 'package:catalog_website/_generated/pageList.g%20.dart';
+import 'package:catalog_website/_generated/block.g.dart';
+import 'package:catalog_website/_generated/component.g.dart';
+import 'package:catalog_website/_generated/page.g.dart';
 import 'package:catalog_website/core/locator.dart';
 import 'package:catalog_website/widgets/sidebar/cubit/sidebar_cubit.dart';
 import 'package:feather_core/feather_core.dart';

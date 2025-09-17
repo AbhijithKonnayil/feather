@@ -49,8 +49,9 @@ class FileUtils {
 
       _logger.success('✅ File created: $path');
     } on FileSystemException catch (e) {
-      _logger.err('❌ Failed to create file: $path');
-      _logger.detail(e.toString());
+      _logger
+        ..err('❌ Failed to create file: $path')
+        ..detail(e.toString());
       rethrow; // let caller handle if needed
     } catch (e) {
       _logger.err('❌ Unexpected error while creating file: $e');

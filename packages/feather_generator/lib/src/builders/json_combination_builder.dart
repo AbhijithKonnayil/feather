@@ -38,7 +38,7 @@ class JsonCombinationBuilder extends Builder {
       scopeMap.entries.forEach((entry) {
         entry.value.contentBuffer
           ..writeln()
-          ..writeln('final ${entry.key.name}List = [');
+          ..writeln('final ${entry.key.name}List = <WidgetDetails>[');
       });
 
       late WidgetScope widgetScope;

@@ -5,7 +5,7 @@ export default function Community() {
   const [contributors, setContributors] = useState<number | null>(null)
 
   useEffect(() => {
-    const repo = 'feather-ui/feather'
+    const repo = 'AbhijithKonnayil/feather'
     fetch(`https://api.github.com/repos/${repo}`)
       .then(r => r.ok ? r.json() : Promise.reject(r))
       .then(data => setStars(data?.stargazers_count ?? null))
@@ -42,7 +42,7 @@ export default function Community() {
 
         <div className="mt-10 text-center">
           <a
-            href="https://github.com/feather-ui/feather/discussions"
+            href="https://github.com/AbhijithKonnayil/feather/discussions"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center rounded-lg border border-cyan-500 px-6 py-3 font-semibold text-cyan-600 transition-all hover:bg-gradient-to-r hover:from-cyan-500 hover:to-blue-600 hover:text-white"
@@ -54,3 +54,4 @@ export default function Community() {
     </section>
   )
 }
+

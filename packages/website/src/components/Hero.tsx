@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function Hero() {
   return (
     <section className="relative bg-gradient-to-b from-blue-50 to-white">
@@ -25,7 +23,7 @@ export default function Hero() {
               Get Started
             </a>
             <a
-              href="https://github.com/feather-ui/feather"
+              href="https://github.com/AbhijithKonnayil/feather"
               target="_blank"
               rel="noopener noreferrer"
               className="px-6 py-3 rounded-lg font-medium border border-cyan-500 text-cyan-600 hover:bg-gradient-to-r hover:from-cyan-500 hover:to-blue-600 hover:text-white transition-all duration-200"
@@ -38,7 +36,7 @@ export default function Hero() {
         {/* Right Content */}
         <div className="flex justify-center lg:justify-end">
           <img
-            src="/feather_brand.png"
+            src="/feather_logo.png"
             alt="Feather Logo"
             className="w-72 lg:w-96 animate-float"
           />
@@ -51,3 +49,4 @@ export default function Hero() {
     </section>
   );
 }
+

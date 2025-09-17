@@ -3,22 +3,86 @@
 
 /* Base */
 @layer base {
-  html { scroll-behavior: smooth; }
-  body { font-family: 'Inter', system-ui, sans-serif; }
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+  }
 }
 
 /* Animations */
-@keyframes fadeIn { 0% { opacity: 0; } 100% { opacity: 1; } }
-@keyframes slideUp { 0% { transform: translateY(20px); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
-@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-@keyframes blob { 0%, 100% { transform: translate(0,0) scale(1); } 33% { transform: translate(10px,-20px) scale(1.05); } 66% { transform: translate(-10px,10px) scale(0.98); } }
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes blob {
+
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  33% {
+    transform: translate(10px, -20px) scale(1.05);
+  }
+
+  66% {
+    transform: translate(-10px, 10px) scale(0.98);
+  }
+}
 
 @layer utilities {
-  .animate-fade-in { animation: fadeIn 0.5s ease-in-out; }
-  .animate-slide-up { animation: slideUp 0.6s ease-out; }
-  .animate-float { animation: float 3s ease-in-out infinite; }
-  .animate-blob { animation: blob 8s ease-in-out infinite; }
-  .animation-delay-2000 { animation-delay: 2s; }
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.6s ease-out;
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .animate-blob {
+    animation: blob 8s ease-in-out infinite;
+  }
+
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
 }
 
 /* Components */
@@ -33,5 +97,12 @@
 
   .card-hover {
     @apply transition-all duration-300 hover:shadow-xl hover:-translate-y-2;
+  }
+
+  /* Brand typography */
+  .brand-script {
+    font-family: 'Alex Brush', cursive;
+    font-weight: 400;
+    letter-spacing: 0.4px;
   }
 }

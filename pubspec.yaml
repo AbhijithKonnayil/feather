@@ -35,7 +35,16 @@ melos:
   
     format:
       run: melos exec -- dart format .
-
+  
+    # Apply Dart fixes
+    fix:
+      run: melos exec -- dart fix --apply
+  
+    # Combine both: format + fix
+    format_and_fix:
+      run: |
+        melos run fix
+        melos run format
     pre-commit:
       description: pre-commit git hook script
       steps:

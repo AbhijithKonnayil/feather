@@ -31,7 +31,7 @@ class CatalogPage extends StatelessWidget {
 }
 
 class _CatalogPageBody extends StatelessWidget {
-  _CatalogPageBody({Key? key}) : super(key: key);
+  const _CatalogPageBody();
 
   @override
   Widget build(BuildContext context) {

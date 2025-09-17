@@ -5,7 +5,7 @@ import 'package:source_gen/source_gen.dart';
 
 class WidgetMetaJsonGenerator extends GeneratorForAnnotation<WidgetMeta> {
   @override
-  generateForAnnotatedElement(
+  String generateForAnnotatedElement(
     Element element,
     ConstantReader annotation,
     BuildStep buildStep,

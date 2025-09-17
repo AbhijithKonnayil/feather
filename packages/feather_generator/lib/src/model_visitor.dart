@@ -7,13 +7,13 @@ class ModelVisitor extends SimpleElementVisitor2<void> {
 
   @override
   void visitConstructorElement(ConstructorElement element) {
-    final String returnType = element.returnType.toString();
-    className = returnType.replaceAll("*", "");
+    final returnType = element.returnType.toString();
+    className = returnType.replaceAll('*', '');
   }
 
   @override
   void visitFieldElement(FieldElement element) {
-    String elementType = element.type.toString().replaceAll("*", "");
+    final elementType = element.type.toString().replaceAll('*', '');
     if (element.name != null) fields[element.name!] = elementType;
   }
 }

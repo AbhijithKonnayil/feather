@@ -6,8 +6,8 @@ import 'package:feather_cli/src/core/logger.dart';
 import 'package:mason_logger/mason_logger.dart';
 
 abstract class FCommand extends Command<int> {
-  final Logger logger = FLogger();
   FCommand();
+  final Logger logger = FLogger();
 
   /// Override this for validation logic before executing
   FutureOr<bool> validate();
@@ -22,10 +22,10 @@ abstract class FCommand extends Command<int> {
       if (isValid) {
         return await execute();
       }
-      throw FException("Unexpected Error");
+      throw FException('Unexpected Error');
     } catch (e, stack) {
-      logger.err(e.toString());
-      logger.detail(stack.toString()); // only visible in verbose mode
+      logger..err(e.toString())
+      ..detail(stack.toString()); // only visible in verbose mode
       return ExitCode.software.code; // 70 = internal software error
     }
   }

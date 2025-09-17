@@ -11,7 +11,7 @@ class JsonCombinationBuilder extends Builder {
   Future<void> build(BuildStep buildStep) async {
     try {
       final glob = Glob('**.feather_widget_meta.json');
-      final Map<WidgetScope, _BufferAdapter> scopeMap = {
+      final scopeMap = <WidgetScope, _BufferAdapter>{
         WidgetScope.component: _BufferAdapter(
           contentBuffer: StringBuffer(),
           importBuffer: StringBuffer(),
@@ -29,17 +29,17 @@ class JsonCombinationBuilder extends Builder {
         ),
       };
 
-      scopeMap.values.forEach((buffer) {
+      for (final buffer in scopeMap.values) {
         buffer.importBuffer
           ..writeln("import 'package:feather_core/feather_core.dart';")
           ..writeln();
-      });
+      }
 
-      scopeMap.entries.forEach((entry) {
+      for (final entry in scopeMap.entries) {
         entry.value.contentBuffer
           ..writeln()
           ..writeln('final ${entry.key.name}List = <WidgetDetails>[');
-      });
+      }
 
       late WidgetScope widgetScope;
       await for (final asset in buildStep.findAssets(glob)) {
@@ -91,11 +91,11 @@ class JsonCombinationBuilder extends Builder {
         ///end of json parsed loop
       } //end of glob file loop
 
-      scopeMap.entries.forEach((entry) {
+      for (final entry in scopeMap.entries) {
         entry.value.contentBuffer
           ..writeln()
           ..writeln('];');
-      });
+      }
       final writeFn = scopeMap.entries.map((
         entries,
       ) {
@@ -166,12 +166,12 @@ class JsonCombinationBuilder extends Builder {
 }
 
 class _BufferAdapter {
-  final StringBuffer contentBuffer;
-  final StringBuffer importBuffer;
-  final Map<String, dynamic> map;
   _BufferAdapter({
     required this.contentBuffer,
     required this.importBuffer,
     required this.map,
   });
+  final StringBuffer contentBuffer;
+  final StringBuffer importBuffer;
+  final Map<String, dynamic> map;
 }

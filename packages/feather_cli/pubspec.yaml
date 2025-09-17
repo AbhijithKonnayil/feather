@@ -6,6 +6,8 @@ publish_to: none
 environment:
   sdk: ^3.8.0
 
+resolution: workspace
+
 dependencies:
   args: ^2.7.0
   change_case: ^2.2.0
@@ -19,8 +21,10 @@ dev_dependencies:
   build_verify: ^3.1.1
   build_version: ^2.1.2
   mocktail: ^1.0.4
-  test: ^1.26.2
   very_good_analysis: ^9.0.0
 
+dependency_overrides:
+  test: ^1.26.3
+  test_api: 0.7.6
 executables:
   feather_cli:

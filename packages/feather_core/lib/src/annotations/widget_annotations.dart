@@ -1,4 +1,4 @@
-import 'package:feather_core/src/core/enum.dart';
+import 'package:feather_core/src/core/enums/enum.dart';
 import 'package:feather_core/src/models/file_meta.dart';
 
 abstract class WidgetMeta<T extends WidgetType, C extends WidgetCategory> {

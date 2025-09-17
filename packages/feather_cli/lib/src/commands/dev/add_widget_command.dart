@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:change_case/change_case.dart';
 import 'package:feather_cli/src/core/command.dart';
-import 'package:feather_cli/src/utils/file_utils.dart';
+import 'package:feather_core/feather_core.dart';
 import 'package:mason_logger/mason_logger.dart';
 
 class AddWidgetCommand extends FCommand {
@@ -43,7 +43,7 @@ class AddWidgetCommand extends FCommand {
           'Enter a unique widget id (e.g. fancy_btn)',
         )
         .toSnakeCase();
-    final fileName = widgetName.toSnakeCase();
+    final fileName = widgetId.toSnakeCase();
     final featherUiRoot = FileUtils.findProjectRoot(Directory.current);
 
     final widgetFilePath = 'lib/$type/$fileName/$fileName.dart';

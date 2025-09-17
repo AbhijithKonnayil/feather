@@ -10,7 +10,8 @@ resolution: workspace
 
 # Add regular dependencies here.
 dependencies:
-  # path: ^1.9.0
+  yaml: ^3.1.3
+  mason_logger: ^0.3.3
 
 dev_dependencies:
   lints: ^6.0.0

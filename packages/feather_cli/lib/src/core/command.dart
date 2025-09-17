@@ -1,8 +1,7 @@
 import 'dart:async';
 
 import 'package:args/command_runner.dart';
-import 'package:feather_cli/src/core/exception.dart';
-import 'package:feather_cli/src/core/logger.dart';
+import 'package:feather_core/feather_core.dart';
 import 'package:mason_logger/mason_logger.dart';
 
 abstract class FCommand extends Command<int> {
@@ -24,8 +23,9 @@ abstract class FCommand extends Command<int> {
       }
       throw FException('Unexpected Error');
     } catch (e, stack) {
-      logger..err(e.toString())
-      ..detail(stack.toString()); // only visible in verbose mode
+      logger
+        ..err(e.toString())
+        ..detail(stack.toString()); // only visible in verbose mode
       return ExitCode.software.code; // 70 = internal software error
     }
   }

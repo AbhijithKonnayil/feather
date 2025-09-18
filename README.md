@@ -34,17 +34,18 @@ feather/
 
 Note: Some IDE or environment files (e.g., `*.iml`) and build outputs are
 generated and may not be relevant to contributors.
-
 ## 📦 Packages
 
-- **feather_core** — Core primitives and shared utilities. [README](packages/feather_core/README.md)
-- **feather_ui** — UI components library. [README](packages/feather_ui/README.md)
-- **feather_registry** — Component registry, metadata, and tokens. [README](packages/feather_registry/README.md)
-- **feather_generator** — Code generation for components and docs. [README](packages/feather_generator/README.md)
-- **feather_cli** — Command-line toolkit for installing UI into apps and assisting contributions. [README](packages/feather_cli/README.md)
-- **feather_example** — Example Flutter app showcasing usage. [README](packages/feather_example/README.md)
-- **catalog_website** — Flutter-based component catalog (docs). [README](packages/catalog_website/README.md)
-- **website** — Official Feather Website. [README](packages/website/README.md)
+| Package            | Description                                                        | Tech Stack                                      | Docs |
+|--------------------|--------------------------------------------------------------------|------------------------------------------------|------|
+| **feather_core**   | Core primitives and shared utilities                               | Dart library (SDK ^3.8)                        | [README](packages/feather_core/README.md) |
+| **feather_ui**     | UI components library (built on `feather_core`)                    | Flutter package (SDK ^3.8), build_runner + custom generator | [README](packages/feather_ui/README.md) |
+| **feather_registry** | Component registry, metadata, and tokens                          | Dart library (SDK ^3.9)                        | [README](packages/feather_registry/README.md) |
+| **feather_generator** | Code generation for components and docs                         | Dart builder/source_gen (analyzer, build, source_gen) | [README](packages/feather_generator/README.md) |
+| **feather_cli**    | Command-line toolkit for installing UI into apps & assisting contributions | Dart CLI (args, cli_completion, mason_logger) | [README](packages/feather_cli/README.md) |
+| **feather_example**| Example Flutter app showcasing usage                               | Flutter app                                    | [README](packages/feather_example/README.md) |
+| **catalog_website**| Interactive component catalog (docs)                               | Flutter Web app (Widgetbook, BLoC, GoRouter)   | [README](packages/catalog_website/README.md) |
+| **website**        | Official Feather website (landing + docs)                          | React 19 + TypeScript + Vite                   | [README](packages/website/README.md) |
 
 ---
 

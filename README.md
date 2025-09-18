@@ -35,6 +35,17 @@ feather/
 Note: Some IDE or environment files (e.g., `*.iml`) and build outputs are
 generated and may not be relevant to contributors.
 
+## 📦 Packages
+
+- **feather_core** — Core primitives and shared utilities. [README](packages/feather_core/README.md)
+- **feather_ui** — UI components library. [README](packages/feather_ui/README.md)
+- **feather_registry** — Component registry, metadata, and tokens. [README](packages/feather_registry/README.md)
+- **feather_generator** — Code generation for components and docs. [README](packages/feather_generator/README.md)
+- **feather_cli** — Command-line toolkit for installing UI into apps and assisting contributions. [README](packages/feather_cli/README.md)
+- **feather_example** — Example Flutter app showcasing usage. [README](packages/feather_example/README.md)
+- **catalog_website** — Flutter-based component catalog (docs). [README](packages/catalog_website/README.md)
+- **website** — Official Feather Website. [README](packages/website/README.md)
+
 ---
 
 ## 🤝 Contributing

@@ -3,12 +3,20 @@ import 'dart:io';
 
 import 'package:change_case/change_case.dart';
 import 'package:feather_cli/src/core/command.dart';
-import 'package:feather_cli/src/utils/file_utils.dart';
+import 'package:feather_core/feather_core.dart';
 import 'package:mason_logger/mason_logger.dart';
 
 class AddWidgetCommand extends FCommand {
   /// {@macro sample_command}
-  AddWidgetCommand({required Logger logger}) : _logger = logger;
+  AddWidgetCommand({required Logger logger}) : _logger = logger {
+    argParser.addOption(
+      'scope',
+      abbr: 's',
+      help: 'Type of widget to add (component, block, page)',
+      allowed: ['component', 'block', 'page'],
+      mandatory: true,
+    );
+  }
 
   @override
   String get description => 'Create boilerplate for a new widget in feather_ui';
@@ -23,7 +31,7 @@ class AddWidgetCommand extends FCommand {
   @override
   Future<int> execute() async {
     // Get the parameter passed to the add command (first positional argument)
-    final args = argResults?.rest ?? [];
+    final type = (argResults?['scope'] as String).toLowerCase();
 
     final widgetName = _logger
         .prompt(
@@ -34,12 +42,12 @@ class AddWidgetCommand extends FCommand {
         .prompt(
           'Enter a unique widget id (e.g. fancy_btn)',
         )
-        .toPascalCase();
-    final fileName = widgetName.toSnakeCase();
+        .toSnakeCase();
+    final fileName = widgetId.toSnakeCase();
     final featherUiRoot = FileUtils.findProjectRoot(Directory.current);
 
-    final widgetFilePath = 'lib/widgets/$fileName/$fileName.dart';
-    final exampleFilePath = 'lib/widgets/$fileName/$fileName.example.dart';
+    final widgetFilePath = 'lib/$type/$fileName/$fileName.dart';
+    final exampleFilePath = 'lib/$type/$fileName/$fileName.example.dart';
 
     await Future.wait([
       FileUtils.createFile(
@@ -48,11 +56,16 @@ class AddWidgetCommand extends FCommand {
           fileName: fileName,
           widgetName: widgetName,
           widgetId: widgetId,
+          type: type,
         ),
       ),
       FileUtils.createFile(
         exampleFilePath,
-        createExampleFileContent(fileName: fileName, widgetName: widgetName),
+        createExampleFileContent(
+          fileName: fileName,
+          widgetName: widgetName,
+          widgetId: widgetId,
+        ),
       ),
     ]);
 
@@ -63,21 +76,27 @@ class AddWidgetCommand extends FCommand {
     required String widgetName,
     required String fileName,
     required String widgetId,
+    required String type,
   }) {
+    final annotation = '${type}Meta'.toPascalCase();
     final buffer = StringBuffer()
       ..write('''
 import 'package:feather_core/feather_core.dart';
 import 'package:flutter/material.dart';
 
 part '$fileName.example.dart';
-@WidgetMeta(
+
+@$annotation(
   id: '$widgetId',
-  name: 'Feather Button 123',
-  description: 'A simple Feather Button for demo',
-  type: WidgetType.ui,
+  name: '$widgetName',
+  description: 'A simple $widgetName component for demo',
   files: [],
-  //TODO: add catagories
-  widgetCategories: ,
+  //TODO: add screen types
+  screens:,
+  //TODO: add types
+  types:,
+  //TODO: add categories
+  categories: ,
 )
 class $widgetName extends StatelessWidget {
 
@@ -85,7 +104,9 @@ class $widgetName extends StatelessWidget {
 
  @override
   Widget build(BuildContext context) {
-  return Placeholder();
+   return Container(
+      child: Text("$widgetName"),
+    );
   }
 
 }
@@ -96,12 +117,13 @@ class $widgetName extends StatelessWidget {
   String createExampleFileContent({
     required String widgetName,
     required String fileName,
+    required String widgetId,
   }) {
     final buffer = StringBuffer()
       ..write('''
 part of '$fileName.dart';
 
-Widget buildExampleWidget() {
+Widget buildExampleWidgetFor_$widgetId() {
   return $widgetName();
 }
 
@@ -112,6 +134,6 @@ Widget buildExampleWidget() {
 
   @override
   FutureOr<bool> validate() {
-    return FileUtils.isInsidePackage("feather_ui");
+    return FileUtils.isInsidePackage('feather_ui');
   }
 }

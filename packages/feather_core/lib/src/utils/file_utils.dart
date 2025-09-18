@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:feather_cli/src/core/exception.dart';
-import 'package:feather_cli/src/core/logger.dart';
+import 'package:feather_core/src/core/exception.dart';
+import 'package:feather_core/src/utils/logger.dart';
 import 'package:yaml/yaml.dart';
 
 class FileUtils {
@@ -25,9 +25,7 @@ class FileUtils {
     }
   }
 
-  static bool isInsidePackage(
-    String packageName,
-  ) {
+  static bool isInsidePackage(String packageName) {
     final root = findProjectRoot(Directory.current);
     if (root == null) {
       throw InvalidDirectoryException('Not inside a Dart/Flutter project.');
@@ -49,8 +47,9 @@ class FileUtils {
 
       _logger.success('✅ File created: $path');
     } on FileSystemException catch (e) {
-      _logger.err('❌ Failed to create file: $path');
-      _logger.detail(e.toString());
+      _logger
+        ..err('❌ Failed to create file: $path')
+        ..detail(e.toString());
       rethrow; // let caller handle if needed
     } catch (e) {
       _logger.err('❌ Unexpected error while creating file: $e');

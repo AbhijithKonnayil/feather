@@ -42,16 +42,16 @@ class AddCommand extends Command<int> {
     return ExitCode.success.code;
   }
 
-  getRegistry(String widgetName) {
+  WidgetMeta? getRegistry(String widgetName) {
     return registry[widgetName];
   }
 
   WidgetMeta? getWidgetMeta(String widgetName) {
-    return getRegistry(widgetName) as WidgetMeta?;
+    return getRegistry(widgetName);
   }
 
-  installDependency(WidgetMeta widgetMeta) {
-    _runProcessAndLog("dart", ["pub", "add", ...widgetMeta.dependencies]);
+  void installDependency(WidgetMeta widgetMeta) {
+    _runProcessAndLog('dart', ['pub', 'add', ...widgetMeta.dependencies]);
   }
 
   Future<void> downloadFiles(WidgetMeta widgetMeta) async {
@@ -76,13 +76,12 @@ class AddCommand extends Command<int> {
   }
 
   Future<void> downloadFileToTarget(String url, String target) async {
-    print(url);
     try {
       final uri = Uri.parse(url);
       final httpClient = HttpClient();
       final request = await httpClient.getUrl(uri);
       final response = await request.close();
-      print(response.statusCode);
+
       if (response.statusCode == 200) {
         final bytes = await consolidateHttpClientResponseBytes(response);
         final file = File(target);
@@ -95,7 +94,6 @@ class AddCommand extends Command<int> {
       }
       httpClient.close();
     } catch (e) {
-      print('Error downloading $url to $target: $e');
       rethrow;
     }
   }
@@ -107,7 +105,7 @@ class AddCommand extends Command<int> {
     final completer = Completer<List<int>>();
     final contents = <int>[];
     response.listen(
-      (data) => contents.addAll(data),
+      contents.addAll,
       onDone: () => completer.complete(contents),
       onError: completer.completeError,
       cancelOnError: true,

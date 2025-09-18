@@ -1,9 +1,13 @@
 import 'dart:async';
 
-import 'package:bloc/bloc.dart';
-import 'package:catalog_website/_generated/widget_list.g.dart';
+import 'package:catalog_website/_generated/block.g.dart';
+import 'package:catalog_website/_generated/component.g.dart';
+import 'package:catalog_website/_generated/page.g.dart';
+import 'package:catalog_website/core/locator.dart';
+import 'package:catalog_website/widgets/sidebar/cubit/sidebar_cubit.dart';
 import 'package:feather_core/feather_core.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'catalog_event.dart';
 part 'catalog_state.dart';
@@ -11,20 +15,57 @@ part 'catalog_state.dart';
 class CatalogBloc extends Bloc<CatalogEvent, CatalogState> {
   CatalogBloc() : super(CatalogInitial()) {
     on<CategoryGroupSelected>(onCategoryGroupSelected);
+    on<WidgetScopeChangedEvent>(handleWidgetScopeChange);
   }
+
+  WidgetScope selectedWidgetScope = WidgetScope.component;
+
+  final Map<WidgetScope, List<WidgetDetails>> compScopeMap = {
+    WidgetScope.component: componentList,
+    WidgetScope.block: blockList,
+    WidgetScope.page: pageList,
+  };
+
+  List<WidgetDetails> getItems() => compScopeMap[selectedWidgetScope]!;
+
+  List<WidgetDetails> getList([LabeledEnum? filter]) => getItems()
+      .where(
+        (e) =>
+            filter == null ||
+            e.types.contains(filter) ||
+            e.categories.contains(filter),
+      )
+      .toList();
 
   FutureOr<void> onCategoryGroupSelected(
     CategoryGroupSelected event,
     Emitter<CatalogState> emit,
   ) {
-    if (event.labeledEnum is WidgetComponent) {
-      final list = widgetList.where((e) {
-        return e.widgetCategories.contains(event.labeledEnum);
-      }).toList();
-      emit(CatalogWidgetsLoadedState(widgets: list));
-    } else {
-      final list = widgetList.where((e) => true).toList();
-      emit(CatalogWidgetsLoadedState(widgets: list));
-    }
+    final list = getList(event.widgetCategoryOrType);
+    emit(
+      CatalogWidgetsLoadedState(
+        widgets: list,
+        selectedWidgetScope: event.widgetScope ?? selectedWidgetScope,
+      ),
+    );
+  }
+
+  FutureOr<void> handleWidgetScopeChange(
+    WidgetScopeChangedEvent event,
+    Emitter<CatalogState> emit,
+  ) {
+    selectedWidgetScope = event.widgetScope;
+
+    emit(
+      CatalogWidgetsLoadedState(
+        widgets: getItems(),
+        selectedWidgetScope: selectedWidgetScope,
+      ),
+    );
+
+    // 🔒 fire-and-forget to avoid sync recursion
+    Future.microtask(() {
+      locator<SidebarCubit>().handleWidgetScopeChanged(selectedWidgetScope);
+    });
   }
 }

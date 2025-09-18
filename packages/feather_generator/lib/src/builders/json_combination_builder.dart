@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:build/build.dart';
+import 'package:change_case/change_case.dart';
+import 'package:feather_core/feather_core.dart';
 import 'package:glob/glob.dart';
 
 class JsonCombinationBuilder extends Builder {
@@ -9,87 +11,167 @@ class JsonCombinationBuilder extends Builder {
   Future<void> build(BuildStep buildStep) async {
     try {
       final glob = Glob('**.feather_widget_meta.json');
+      final scopeMap = <WidgetScope, _BufferAdapter>{
+        WidgetScope.component: _BufferAdapter(
+          contentBuffer: StringBuffer(),
+          importBuffer: StringBuffer(),
+          map: {},
+        ),
+        WidgetScope.block: _BufferAdapter(
+          contentBuffer: StringBuffer(),
+          importBuffer: StringBuffer(),
+          map: {},
+        ),
+        WidgetScope.page: _BufferAdapter(
+          contentBuffer: StringBuffer(),
+          importBuffer: StringBuffer(),
+          map: {},
+        ),
+      };
 
-      // Collect and flatten into a single list
-      final allMaps = <String, dynamic>{};
-      final importBuffer = StringBuffer(
-        "import 'package:feather_core/feather_core.dart';",
-      )..writeln();
-      final listString = StringBuffer()
-        ..writeln()
-        ..writeln('final widgetList = [');
+      for (final buffer in scopeMap.values) {
+        buffer.importBuffer
+          ..writeln("import 'package:feather_core/feather_core.dart';")
+          ..writeln();
+      }
+
+      for (final entry in scopeMap.entries) {
+        entry.value.contentBuffer
+          ..writeln()
+          ..writeln('final ${entry.key.name}List = <WidgetDetails>[');
+      }
+
+      late WidgetScope widgetScope;
       await for (final asset in buildStep.findAssets(glob)) {
         final content = await buildStep.readAsString(asset);
         final parsed = (jsonDecode(content) as List)
             .cast<Map<String, dynamic>>();
-        //allMaps.addAll(parsed);
         for (final widgetMeta in parsed) {
           final id = widgetMeta['id'] as String;
           final name = widgetMeta['name'] as String;
           final description = widgetMeta['description'] as String;
           final import = widgetMeta['import'] as String;
-          final widgetCategories = widgetMeta['widgetCategories'] as List;
-          const type = 'ui';
-          if (allMaps.containsKey(id)) {
+          final categories = widgetMeta['categories'] as List;
+          final types = widgetMeta['types'] as List;
+          final screens = widgetMeta['screens'] as List;
+          final scope = widgetMeta['scope'] as String;
+          widgetScope = WidgetScope.values.byName(scope);
+
+          final categoryEnumPrefix = '${scope}Category'.toPascalCase();
+          final typeEnumPrefix = '${scope}Type'.toPascalCase();
+          if (scopeMap[widgetScope]!.map.containsKey(id)) {
             throw StateError(
               'Duplicate widget ID "$id" found in asset: ${asset.path}',
             );
           }
-          importBuffer.writeln("import '$import' as $id;");
-          listString
+          //
+          scopeMap[widgetScope]!.importBuffer.writeln("import '$import';");
+
+          scopeMap[widgetScope]!.contentBuffer
             ..writeln('WidgetDetails(')
             ..writeln("id:'$id',")
             ..writeln("name:'$name',")
+            ..writeln('scope:$widgetScope,')
             ..writeln("description:'$description',")
-            ..writeln('example:$id.buildExampleWidget,')
-            ..writeln('type:WidgetType.$type,')
+            ..writeln('example:buildExampleWidgetFor_$id,')
             ..writeln(
-              'widgetCategories:${widgetCategories.map((e) => "WidgetComponent.$e").toList()},',
+              'screens:${screens.map((e) => "Screens.$e").toList()},',
+            )
+            ..writeln(
+              'categories:${categories.map((e) => "$categoryEnumPrefix.$e").toList()},',
+            )
+            ..writeln(
+              'types:${types.map((e) => "$typeEnumPrefix.$e").toList()},',
             )
             ..writeln('files:[],')
             ..writeln('),');
-          allMaps[id] = widgetMeta;
+          scopeMap[widgetScope]!.map[id] = widgetMeta;
         }
+
+        ///end of json parsed loop
+      } //end of glob file loop
+
+      for (final entry in scopeMap.entries) {
+        entry.value.contentBuffer
+          ..writeln()
+          ..writeln('];');
       }
-      listString.writeln('];');
+      final writeFn = scopeMap.entries.map((
+        entries,
+      ) {
+        final importBuffer = entries.value.importBuffer.toString();
+        final contentBuffer = entries.value.contentBuffer.toString();
+        return writeDartList(
+          content: importBuffer + contentBuffer,
+          fileName: entries.key.name,
+          buildStep: buildStep,
+        );
+      });
+
+      final jsonWriteFn = scopeMap.entries.map((
+        entries,
+      ) {
+        return writeJsonList(
+          map: entries.value.map,
+          fileName: entries.key.name,
+          buildStep: buildStep,
+        );
+      });
       await Future.wait([
-        writeDartList(
-          importBuffer.toString() + listString.toString(),
-          buildStep,
-        ),
-        writeJsonList(allMaps, buildStep),
+        ...writeFn,
+        ...jsonWriteFn,
       ]);
     } catch (e) {
       print(e);
     }
   }
 
-  Future<void> writeDartList(
-    String content,
-    BuildStep buildStep,
-  ) async {
-    final assetId = AssetId('feather_ui', 'lib/.generated/list.g.dart');
+  Future<void> writeDartList({
+    required String content,
+    required String fileName,
+    required BuildStep buildStep,
+  }) async {
+    final assetId = AssetId(
+      'feather_ui',
+      '$_generateLocation/$fileName.g.dart',
+    );
     await buildStep.writeAsString(assetId, content);
   }
 
-  Future<void> writeJsonList(
-    Map<String, dynamic> allMaps,
-    BuildStep buildStep,
-  ) async {
+  Future<void> writeJsonList({
+    required Map<String, dynamic> map,
+    required BuildStep buildStep,
+    required String fileName,
+  }) async {
     // Encode once, at the end
     const encoder = JsonEncoder.withIndent('  '); // 2 spaces
 
-    final jsonString = encoder.convert(allMaps);
+    final jsonString = encoder.convert(map);
 
-    final assetId = AssetId('feather_ui', 'lib/.generated/list.g.json');
+    final assetId = AssetId(
+      'feather_ui',
+      '$_generateLocation/$fileName.g.json',
+    );
     await buildStep.writeAsString(assetId, jsonString);
   }
 
+  static const String _generateLocation = 'lib/_generated';
   @override
-  final buildExtensions = const {
+  final buildExtensions = {
     r'$lib$': [
-      '.generated/list.g.json',
-      '.generated/list.g.dart',
+      ...WidgetScope.values.map((e) => '_generated/${e.name}.g.dart'),
+      ...WidgetScope.values.map((e) => '_generated/${e.name}.g.json'),
     ], // one output per package
   };
+}
+
+class _BufferAdapter {
+  _BufferAdapter({
+    required this.contentBuffer,
+    required this.importBuffer,
+    required this.map,
+  });
+  final StringBuffer contentBuffer;
+  final StringBuffer importBuffer;
+  final Map<String, dynamic> map;
 }

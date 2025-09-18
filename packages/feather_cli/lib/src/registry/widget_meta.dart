@@ -59,8 +59,8 @@ class FileMeta {
     const baseRepo =
         'https://raw.githubusercontent.com/AbhijithKonnayil/feather/5-Feature-implement-%60feather_cli%60/packages/';
 
-    const uiRepo = "feather_ui/";
-    const widgetFolder = "lib/widgets/";
+    const uiRepo = 'feather_ui/';
+    const widgetFolder = 'lib/widgets/';
     return '$baseRepo$uiRepo$widgetFolder$path';
   }
 }

@@ -15,22 +15,22 @@ final Map<String, WidgetMeta> registry = {
     ],
   ),
   'fluentButton': WidgetMeta(
-    name: "Fluent Button",
-    description: "",
+    name: 'Fluent Button',
+    description: '',
     type: WidgetType.ui,
     files: [
       FileMeta(
         path:
-            "https://raw.githubusercontent.com/bdlukaa/fluent_ui/refs/heads/master/lib/src/controls/buttons/base.dart",
-        type: "type",
-        target: "lib/widgets/fluentButton/base.dart",
+            'https://raw.githubusercontent.com/bdlukaa/fluent_ui/refs/heads/master/lib/src/controls/buttons/base.dart',
+        type: 'type',
+        target: 'lib/widgets/fluentButton/base.dart',
         isExternal: true,
       ),
       FileMeta(
         path:
-            "https://raw.githubusercontent.com/bdlukaa/fluent_ui/refs/heads/master/lib/src/controls/buttons/button.dart",
-        type: "dart",
-        target: "lib/widgets/fluentButton/button.dart",
+            'https://raw.githubusercontent.com/bdlukaa/fluent_ui/refs/heads/master/lib/src/controls/buttons/button.dart',
+        type: 'dart',
+        target: 'lib/widgets/fluentButton/button.dart',
         isExternal: true,
       ),
     ],

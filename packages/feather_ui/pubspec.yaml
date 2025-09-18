@@ -1,18 +1,17 @@
 name: feather_ui
 description: A Very Good Project created by Very Good CLI.
-version: 0.1.0+1
-publish_to: none
+version: 0.0.1
+repository: https://github.com/AbhijithKonnayil/feather/tree/main/packages/feather_ui
 
 environment:
   sdk: ^3.8.0
-  flutter: ^3.32.0
+
+resolution: workspace
 
 dependencies:
   flutter:
     sdk: flutter
-  feather_core:
-    path:
-      ../feather_core
+  feather_core: any
 
 dev_dependencies:
   flutter_test:

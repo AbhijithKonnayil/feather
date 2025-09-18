@@ -44,7 +44,6 @@ class JsonBuilder extends BaseBuilder {
 
     final outputId = buildStep.inputId.changeExtension(generatedExtension);
     final formattedOutput = formatOutput(output.trim());
-    print("output >> $output");
     return buildStep.writeAsString(outputId, formattedOutput);
   }
 }

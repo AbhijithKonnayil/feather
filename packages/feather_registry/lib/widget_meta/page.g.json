@@ -1,0 +1,28 @@
+{
+  "login_register_page_01": {
+    "id": "login_register_page_01",
+    "name": "LoginRegisterPage01",
+    "description": "A simple LoginRegisterPage01 component for demo",
+    "import": "package:feather_ui/page/login_register_page_01/login_register_page_01.dart",
+    "example": "buildExampleWidgetFor_login_register_page_01()",
+    "screens": [
+      "mobile",
+      "desktop"
+    ],
+    "types": [
+      "authPage"
+    ],
+    "categories": [
+      "auth"
+    ],
+    "scope": "page",
+    "packages_library": [
+      "package:feather_ui/component/text_field_01/text_field_01.dart"
+    ],
+    "files": [
+      {
+        "path": "component/text_field_01/text_field_01.dart"
+      }
+    ]
+  }
+}

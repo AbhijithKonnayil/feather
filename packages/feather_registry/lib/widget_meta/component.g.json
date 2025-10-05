@@ -1,0 +1,21 @@
+{
+  "text_field_01": {
+    "id": "text_field_01",
+    "name": "TextField01",
+    "description": "A simple TextField01 component for demo",
+    "import": "package:feather_ui/component/text_field_01/text_field_01.dart",
+    "example": "buildExampleWidgetFor_text_field_01()",
+    "screens": [
+      "mobile"
+    ],
+    "types": [
+      "textField"
+    ],
+    "categories": [
+      "formsInputs"
+    ],
+    "scope": "component",
+    "packages_library": [],
+    "files": []
+  }
+}

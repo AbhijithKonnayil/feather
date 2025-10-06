@@ -7,6 +7,4 @@ class FLogger extends Logger {
   FLogger._internal();
 
   static final FLogger _instance = FLogger._internal();
-
-  final Logger logger = Logger();
 }

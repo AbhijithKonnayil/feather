@@ -1,53 +1,59 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:args/command_runner.dart';
-import 'package:feather_cli/src/registry/registry.dart';
-import 'package:feather_cli/src/registry/widget_meta.dart';
+import 'package:feather_cli/src/core/command.dart';
+import 'package:feather_cli/src/core/http_client.dart';
+import 'package:feather_core/feather_core.dart';
 import 'package:mason_logger/mason_logger.dart';
 
-class AddCommand extends Command<int> {
-  /// {@macro sample_command}
-  AddCommand({required Logger logger}) : _logger = logger;
+class AddCommand extends FCommand {
+  AddCommand({required Logger logger}) : _logger = logger {
+    argParser.addOption(
+      'scope',
+      abbr: 's',
+      help: 'Type of widget to add (component, block, page)',
+      allowed: ['component', 'block', 'page'],
+      mandatory: true,
+    );
+  }
 
   @override
-  String get description => 'A sample sub command that just prints one joke';
+  String get description => 'Add a widget to your project';
 
   @override
   String get name => 'add';
 
   final Logger _logger;
+  final FHttpClient httpClient = FHttpClient();
+  WidgetScope? widgetScope;
+  String? widgetName;
 
-  /// Reads the registry.json file and returns it as a Map
-
-  @override
-  Future<int> run() async {
-    // Get the parameter passed to the add command (first positional argument)
-    final args = argResults?.rest ?? [];
-    String? widgetName;
-    if (args.isNotEmpty) {
-      widgetName = args.first;
+  Future<Map<String, dynamic>> getRegistry() async {
+    try {
+      final data = await httpClient.get(
+        'https://raw.githubusercontent.com/AbhijithKonnayil/feather/refs/heads/main/packages/feather_registry/lib/widget_meta/${widgetScope!.name}.g.json',
+      );
+      if (data == null) {
+        throw FException('Failed to fetch registry');
+      }
+      return data as Map<String, dynamic>;
+    } on HttpException catch (e) {
+      _logger.err(e.message);
+      throw FException('Failed to fetch registry');
+    } on Exception catch (e) {
+      _logger.err(e.toString());
+      throw FException('Failed to fetch registry');
     }
-
-    final widgetMeta = getWidgetMeta(widgetName!);
-
-    if (widgetMeta == null) {
-      _logger.err('Widget $widgetName not found in registry');
-      return ExitCode.software.code;
-    }
-    //installDependency(widgetMeta);
-    await downloadFiles(widgetMeta);
-
-    //_logger.info(widgetMeta.toString());
-    return ExitCode.success.code;
   }
 
-  WidgetMeta? getRegistry(String widgetName) {
-    return registry[widgetName];
-  }
+  Future<WidgetMeta> getWidgetMeta(String widgetName) async {
+    final registryJson = await getRegistry();
 
-  WidgetMeta? getWidgetMeta(String widgetName) {
-    return getRegistry(widgetName);
+    final widgetJson = registryJson[widgetName];
+    if (widgetJson == null) {
+      throw FException('$widgetName not found in registry');
+    }
+    return WidgetMeta.fromJson(widgetJson as Map<String, dynamic>);
   }
 
   void installDependency(WidgetMeta widgetMeta) {
@@ -57,7 +63,7 @@ class AddCommand extends Command<int> {
   Future<void> downloadFiles(WidgetMeta widgetMeta) async {
     await Future.wait(
       widgetMeta.files.map(
-        (e) => downloadFileToTarget(e.absolutePath(), e.target),
+        (e) => httpClient.downloadFile(e.absolutePath(), e.path),
       ),
     );
   }
@@ -75,41 +81,26 @@ class AddCommand extends Command<int> {
     }
   }
 
-  Future<void> downloadFileToTarget(String url, String target) async {
-    try {
-      final uri = Uri.parse(url);
-      final httpClient = HttpClient();
-      final request = await httpClient.getUrl(uri);
-      final response = await request.close();
+  @override
+  Future<int> execute() async {
+    final scope = (argResults?['scope'] as String).toLowerCase();
+    widgetScope = WidgetScope.values.byName(scope);
+    final widgetMeta = await getWidgetMeta(widgetName!);
+    await downloadFiles(widgetMeta);
 
-      if (response.statusCode == 200) {
-        final bytes = await consolidateHttpClientResponseBytes(response);
-        final file = File(target);
-        await file.create(recursive: true);
-        await file.writeAsBytes(bytes);
-      } else {
-        throw Exception(
-          'Failed to download file: $url (Status: ${response.statusCode})',
-        );
-      }
-      httpClient.close();
-    } catch (e) {
-      rethrow;
-    }
+    return ExitCode.success.code;
   }
 
-  /// Helper to read all bytes from a HttpClientResponse
-  Future<List<int>> consolidateHttpClientResponseBytes(
-    HttpClientResponse response,
-  ) {
-    final completer = Completer<List<int>>();
-    final contents = <int>[];
-    response.listen(
-      contents.addAll,
-      onDone: () => completer.complete(contents),
-      onError: completer.completeError,
-      cancelOnError: true,
-    );
-    return completer.future;
+  @override
+  FutureOr<bool> validate() {
+    final args = argResults?.rest ?? [];
+    if (args.isNotEmpty) {
+      widgetName = args.first;
+    }
+    if (widgetName == null) {
+      _logger.err('Widget name is required');
+      return false;
+    }
+    return true;
   }
 }

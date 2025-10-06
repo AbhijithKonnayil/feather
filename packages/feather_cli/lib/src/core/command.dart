@@ -21,7 +21,7 @@ abstract class FCommand extends Command<int> {
       if (isValid) {
         return await execute();
       }
-      throw FException('Unexpected Error');
+      throw FException('Validation Error');
     } catch (e, stack) {
       logger
         ..err(e.toString())

@@ -2,6 +2,8 @@ import 'dart:core';
 
 import 'package:catalog_website/core/locator.dart';
 import 'package:catalog_website/features/catalog/bloc/catalog_bloc.dart';
+import 'package:catalog_website/features/catalog/bloc/widget_display.dart';
+import 'package:catalog_website/features/widget_preview/bloc/widget_preview_bloc.dart';
 import 'package:catalog_website/widgets/gradient_button.dart';
 import 'package:catalog_website/widgets/searchbox.dart';
 import 'package:catalog_website/widgets/sidebar/cubit/sidebar_cubit.dart';
@@ -10,6 +12,7 @@ import 'package:feather_core/feather_core.dart' show WidgetDetails, WidgetScope;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CatalogPage extends StatelessWidget {
@@ -24,6 +27,7 @@ class CatalogPage extends StatelessWidget {
           value: locator<SidebarCubit>(),
           //..headerMenuClicked("Category", context),
         ),
+        BlocProvider.value(value: locator<WidgetPreviewBloc>()),
       ],
       child: _CatalogPageBody(),
     );
@@ -136,7 +140,12 @@ class _CatalogPageBody extends StatelessWidget {
             padding: const EdgeInsets.all(18.0),
             child: Column(
               children: [
-                // Flexible widget area
+                MaterialButton(
+                  child: Text('view'),
+                  onPressed: () {
+                    context.push('/widget-preview', extra: widgetDetail);
+                  },
+                ),
                 Expanded(
                   child: Align(
                     alignment: Alignment.center,
@@ -228,7 +237,60 @@ class _CatalogPageBody extends StatelessWidget {
               ),
             );
           }
-          return buildGridView(state.widgets);
+          return Row(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  gradient: const LinearGradient(
+                    colors: [
+                      Color(0xFF00C9A7), // teal
+                      Color(0xFF0072FF), // blue
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                ),
+                padding: EdgeInsets.all(10),
+                margin: EdgeInsets.all(10),
+                width: 250,
+                child: ListView.builder(
+                  itemCount: state.widgets.length,
+                  itemBuilder: (context, index) {
+                    return InkWell(
+                      child: Container(
+                        margin: EdgeInsets.symmetric(vertical: 5),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          gradient: const LinearGradient(
+                            colors: [
+                              Color.fromARGB(255, 255, 255, 255), // teal
+                              Color.fromARGB(255, 231, 231, 231), // blue
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                        ),
+                        child: ListTile(
+                          title: Text(state.widgets[index].name),
+                          onTap: () {
+                            context.read<WidgetPreviewBloc>().add(
+                              WidgetPreviewLoadEvent(
+                                widgetDetails: state.widgets[index],
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              Expanded(
+                child: Column(children: [Expanded(child: WidgetDisplay())]),
+              ),
+            ],
+          );
         }
         return SizedBox.shrink();
       },

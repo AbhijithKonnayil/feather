@@ -1,54 +1,37 @@
+import 'package:catalog_website/providers/widgets_provider.dart';
+import 'package:catalog_website/widgets/catalog_appbar.dart';
+import 'package:catalog_website/widgets/sidebar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:url_launcher/url_launcher.dart';
 
-import '../../providers/theme_provider.dart' show themeProvider;
-
-class CatalogPage extends StatelessWidget {
+class CatalogPage extends ConsumerWidget {
   const CatalogPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(appBar: const CatalogAppbar());
-  }
-}
-
-class CatalogAppbar extends ConsumerWidget implements PreferredSizeWidget {
-  const CatalogAppbar({super.key});
-
-  @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isDarkMode = ref.watch(themeProvider) == ThemeMode.dark;
-    final themeNotifier = ref.read(themeProvider.notifier);
-
-    return AppBar(
-      title: Image.asset(
-        'assets/images/feather_brand.png',
-        fit: BoxFit.contain,
-        height: 40,
-      ),
-      toolbarHeight: 50,
-      actions: [
-        // Dark mode toggle
-        IconButton(
-          icon: Icon(isDarkMode ? Icons.light_mode : Icons.dark_mode),
-          onPressed: () => themeNotifier.toggleTheme(),
-          tooltip: isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode',
-        ),
-        // GitHub icon
-        IconButton(
-          icon: const Icon(Icons.code),
-          onPressed: () => launchUrl(
-            Uri.parse('https://github.com/AbhijithKonnayil/feather'),
-            mode: LaunchMode.externalApplication,
+    final filteredWidgets = ref.watch(filteredWidgetsProvider);
+    print(filteredWidgets);
+    return Scaffold(
+      appBar: const CatalogAppbar(),
+      body: Row(
+        children: [
+          Sidebar(),
+          Expanded(
+            child: GridView.builder(
+              itemCount: filteredWidgets.length,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+              ),
+              itemBuilder: (context, index) {
+                return Card(
+                  color: Colors.red,
+                  child: Center(child: Text(filteredWidgets[index].name)),
+                );
+              },
+            ),
           ),
-          tooltip: 'View on GitHub',
-        ),
-        const SizedBox(width: 8),
-      ],
+        ],
+      ),
     );
   }
-
-  @override
-  Size get preferredSize => const Size(double.infinity, kToolbarHeight);
 }

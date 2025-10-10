@@ -14,7 +14,6 @@ class _SidebarState extends ConsumerState<Sidebar>
     with TickerProviderStateMixin {
   static const double collapsedWidth = 60.0;
   static const double expandedWidth = 240.0;
-  static const double itemHeight = 48.0;
 
   bool isExpanded = true;
   late final AnimationController _animationController;
@@ -54,128 +53,132 @@ class _SidebarState extends ConsumerState<Sidebar>
       duration: const Duration(milliseconds: 300),
       width: isExpanded ? expandedWidth : collapsedWidth,
       curve: Curves.easeInOutCubic,
-      margin: const EdgeInsets.only(left: 5, bottom: 5),
       child: Material(
         elevation: 4,
         borderRadius: BorderRadius.circular(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            // Header with logo and collapse button
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              decoration: BoxDecoration(),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Container(
-                    alignment: Alignment.centerRight,
-                    child: IconButton(
-                      icon: AnimatedSwitcher(
-                        duration: const Duration(milliseconds: 300),
-                        transitionBuilder: (child, animation) {
-                          return RotationTransition(
-                            turns: Tween<double>(
-                              begin: isExpanded ? 0.5 : 0,
-                              end: isExpanded ? 0 : 0.5,
-                            ).animate(animation),
-                            child: child,
-                          );
-                        },
-                        child: Icon(
-                          isExpanded ? Icons.chevron_left : Icons.menu,
-                          key: ValueKey<bool>(isExpanded),
-                        ),
-                      ),
-                      onPressed: _toggleExpanded,
-                      tooltip: isExpanded ? 'Collapse' : 'Expand',
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // Header with logo and collapse button
+              buildCollapseIcon(),
+              ...["Widget Type", "Widget Category"].map((e) {
+                var mode;
+                if (e == "Widget Type") {
+                  mode = WidgetType;
+                } else if (e == "Widget Category") {
+                  mode = WidgetCategory;
+                }
+
+                return NavItem(
+                  label: e,
+                  isSelected: selectedSidebarMode == mode,
+                  onTap: () {
+                    ref
+                        .read(selectedSidebarModeProvider.notifier)
+                        .changeType(mode);
+                  },
+                );
+              }),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Divider(thickness: 0.5, height: 0.5),
+              ),
+              Expanded(
+                child: ListView.builder(
+                  padding: const EdgeInsets.symmetric(horizontal: 0),
+                  itemCount: catalogItems.length,
+                  itemBuilder: (context, index) {
+                    final item = catalogItems[index];
+                    return NavItem(
+                      label: item.label,
+                      isSelected: selectedSidebarItem == item,
+                      onTap: () {
+                        ref
+                            .read(selectedSidebarItemProvider.notifier)
+                            .changeType(item);
+                      },
+                    );
+                  },
+                ),
+              ),
+
+              // User profile or settings
+              /*   Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                decoration: BoxDecoration(
+                  border: Border(
+                    top: BorderSide(
+                      color: theme.dividerColor.withOpacity(0.1),
+                      width: 1,
                     ),
                   ),
-                ],
-              ),
-            ),
-            ...["Widget Type", "Widget Category"].map((e) {
-              var mode;
-              if (e == "Widget Type") {
-                mode = WidgetType;
-              } else if (e == "Widget Category") {
-                mode = WidgetCategory;
-              }
+                ),
+                child: ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  leading: CircleAvatar(
+                    backgroundColor: theme.colorScheme.primary.withOpacity(0.1),
+                    child: Icon(Icons.person, color: theme.colorScheme.primary),
+                  ),
+                  title: AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 200),
+                    child: isExpanded
+                        ? Text(
+                            'User Name',
+                            style: theme.textTheme.bodyMedium,
+                            overflow: TextOverflow.ellipsis,
+                          )
+                        : const SizedBox.shrink(),
+                  ),
+                  trailing: isExpanded
+                      ? Icon(
+                          Icons.arrow_drop_down,
+                          color: theme.textTheme.bodySmall?.color,
+                        )
+                      : null,
+                  onTap: () {},
+                  dense: true,
+                ),
+              ), */
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 
-              return NavItem(
-                itemHeight: itemHeight,
-                label: e,
-                isSelected: selectedSidebarMode == mode,
-                onTap: () {
-                  ref
-                      .read(selectedSidebarModeProvider.notifier)
-                      .changeType(mode);
-                },
-              );
-            }),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Divider(thickness: 0.5, height: 0.5),
-            ),
-            Expanded(
-              child: ListView.builder(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                itemCount: catalogItems.length,
-                itemBuilder: (context, index) {
-                  final item = catalogItems[index];
-                  return NavItem(
-                    itemHeight: itemHeight,
-                    label: item.label,
-                    isSelected: selectedSidebarItem == item,
-                    onTap: () {
-                      ref
-                          .read(selectedSidebarItemProvider.notifier)
-                          .changeType(item);
-                    },
+  Container buildCollapseIcon() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      decoration: BoxDecoration(),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Container(
+            alignment: Alignment.centerRight,
+            child: IconButton(
+              icon: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 300),
+                transitionBuilder: (child, animation) {
+                  return RotationTransition(
+                    turns: Tween<double>(
+                      begin: isExpanded ? 0.5 : 0,
+                      end: isExpanded ? 0 : 0.5,
+                    ).animate(animation),
+                    child: child,
                   );
                 },
+                child: Icon(
+                  isExpanded ? Icons.chevron_left : Icons.menu,
+                  key: ValueKey<bool>(isExpanded),
+                ),
               ),
+              onPressed: _toggleExpanded,
+              tooltip: isExpanded ? 'Collapse' : 'Expand',
             ),
-
-            // User profile or settings
-            /*   Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              decoration: BoxDecoration(
-                border: Border(
-                  top: BorderSide(
-                    color: theme.dividerColor.withOpacity(0.1),
-                    width: 1,
-                  ),
-                ),
-              ),
-              child: ListTile(
-                contentPadding: EdgeInsets.zero,
-                leading: CircleAvatar(
-                  backgroundColor: theme.colorScheme.primary.withOpacity(0.1),
-                  child: Icon(Icons.person, color: theme.colorScheme.primary),
-                ),
-                title: AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 200),
-                  child: isExpanded
-                      ? Text(
-                          'User Name',
-                          style: theme.textTheme.bodyMedium,
-                          overflow: TextOverflow.ellipsis,
-                        )
-                      : const SizedBox.shrink(),
-                ),
-                trailing: isExpanded
-                    ? Icon(
-                        Icons.arrow_drop_down,
-                        color: theme.textTheme.bodySmall?.color,
-                      )
-                    : null,
-                onTap: () {},
-                dense: true,
-              ),
-            ), */
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -184,13 +187,11 @@ class _SidebarState extends ConsumerState<Sidebar>
 class NavItem extends StatelessWidget {
   const NavItem({
     super.key,
-    required this.itemHeight,
+
     required this.label,
     required this.isSelected,
     required this.onTap,
   });
-
-  final double itemHeight;
 
   final String label;
   final bool isSelected;
@@ -201,7 +202,7 @@ class NavItem extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 4),
+      padding: const EdgeInsets.symmetric(vertical: 1, horizontal: 0),
       child: Material(
         color: isSelected
             ? theme.colorScheme.primary.withOpacity(0.1)
@@ -211,33 +212,35 @@ class NavItem extends StatelessWidget {
           onTap: onTap,
           borderRadius: BorderRadius.circular(8),
           child: Container(
-            height: itemHeight,
-            padding: const EdgeInsets.symmetric(horizontal: 6),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    label,
-                    textAlign: TextAlign.left,
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      color: isSelected
-                          ? theme.colorScheme.primary
-                          : theme.textTheme.bodyMedium?.color,
-                      fontWeight: isSelected ? FontWeight.w500 : null,
-                    ),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                if (isSelected)
-                  Container(
-                    width: 4,
-                    height: 16,
-                    decoration: BoxDecoration(
-                      color: theme.colorScheme.primary,
-                      borderRadius: BorderRadius.circular(2),
+            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 12),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 8),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      label,
+                      textAlign: TextAlign.left,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: isSelected
+                            ? theme.colorScheme.primary
+                            : theme.textTheme.bodyMedium?.color,
+                        fontWeight: isSelected ? FontWeight.w500 : null,
+                      ),
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
-              ],
+                  if (isSelected)
+                    Container(
+                      width: 4,
+                      height: 16,
+                      decoration: BoxDecoration(
+                        color: theme.colorScheme.primary,
+                        borderRadius: BorderRadius.circular(2),
+                      ),
+                    ),
+                ],
+              ),
             ),
           ),
         ),

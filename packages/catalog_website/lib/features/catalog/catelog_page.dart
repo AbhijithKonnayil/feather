@@ -10,27 +10,53 @@ class CatalogPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final filteredWidgets = ref.watch(filteredWidgetsProvider);
-    print(filteredWidgets);
+    final selectedWidget = ref.watch(selectedWidgetProvider);
     return Scaffold(
       appBar: const CatalogAppbar(),
-      body: Row(
-        children: [
-          Sidebar(),
-          Expanded(
-            child: GridView.builder(
-              itemCount: filteredWidgets.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          children: [
+            Sidebar(),
+            Expanded(
+              child: GridView.builder(
+                itemCount: filteredWidgets.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                ),
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: GestureDetector(
+                      onTap: () => ref
+                          .read(selectedWidgetProvider.notifier)
+                          .toggleWidget(filteredWidgets[index]),
+                      child: Card(
+                        color: Colors.red,
+                        child: Center(child: Text(filteredWidgets[index].name)),
+                      ),
+                    ),
+                  );
+                },
               ),
-              itemBuilder: (context, index) {
-                return Card(
-                  color: Colors.red,
-                  child: Center(child: Text(filteredWidgets[index].name)),
-                );
-              },
             ),
-          ),
-        ],
+            AnimatedContainer(
+              color: Colors.green,
+              duration: Duration(milliseconds: 300),
+              width: selectedWidget == null
+                  ? 0
+                  : MediaQuery.of(context).size.width * 0.5,
+              child: selectedWidget == null
+                  ? Container()
+                  : Container(
+                      margin: const EdgeInsets.all(8.0),
+                      height: double.infinity,
+                      width: double.infinity,
+                      child: selectedWidget.example(),
+                    ),
+            ),
+          ],
+        ),
       ),
     );
   }

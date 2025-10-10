@@ -1,6 +1,7 @@
 import 'package:catalog_website/_generated/block.g.dart';
 import 'package:catalog_website/_generated/component.g.dart';
 import 'package:catalog_website/_generated/page.g.dart';
+import 'package:catalog_website/providers/search_provider.dart';
 import 'package:feather_core/feather_core.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -24,12 +25,14 @@ List<WidgetDetails> filteredWidgetsNotifier(Ref ref) {
   };
   final selectedSidebarItem = ref.watch(selectedSidebarItemProvider);
   final selectedScope = ref.watch(selectedScopeProvider);
+  final query = ref.watch(searchQueryProvider).toLowerCase();
 
   return _types[selectedScope]!
       .where(
         (element) =>
             element.categories.contains(selectedSidebarItem) ||
-            element.types.contains(selectedSidebarItem),
+            element.types.contains(selectedSidebarItem) &&
+                (element.name.toLowerCase().contains(query)),
       )
       .toList();
 }

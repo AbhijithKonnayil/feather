@@ -47,9 +47,6 @@ class _SidebarState extends ConsumerState<Sidebar>
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final isDarkMode = theme.brightness == Brightness.dark;
-
     final catalogItems = ref.watch(sidebarMenuItemsProvider);
     final selectedSidebarMode = ref.watch(selectedSidebarModeProvider);
     final selectedSidebarItem = ref.watch(selectedSidebarItemProvider);
@@ -67,75 +64,67 @@ class _SidebarState extends ConsumerState<Sidebar>
             // Header with logo and collapse button
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                    color: theme.dividerColor.withOpacity(0.1),
-                    width: 1,
-                  ),
-                ),
-              ),
+              decoration: BoxDecoration(),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 200),
-                    child: isExpanded
-                        ? Padding(
-                            padding: const EdgeInsets.only(left: 8.0),
-                            child: Text(
-                              'Feather UI',
-                              style: theme.textTheme.titleMedium?.copyWith(
-                                fontWeight: FontWeight.bold,
-                                color: theme.colorScheme.primary,
-                              ),
-                            ),
-                          )
-                        : const SizedBox.shrink(),
-                  ),
-                  IconButton(
-                    icon: AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 300),
-                      transitionBuilder: (child, animation) {
-                        return RotationTransition(
-                          turns: Tween<double>(
-                            begin: isExpanded ? 0.5 : 0,
-                            end: isExpanded ? 0 : 0.5,
-                          ).animate(animation),
-                          child: child,
-                        );
-                      },
-                      child: Icon(
-                        isExpanded ? Icons.chevron_left : Icons.menu,
-                        key: ValueKey<bool>(isExpanded),
+                  Container(
+                    alignment: Alignment.centerRight,
+                    child: IconButton(
+                      icon: AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 300),
+                        transitionBuilder: (child, animation) {
+                          return RotationTransition(
+                            turns: Tween<double>(
+                              begin: isExpanded ? 0.5 : 0,
+                              end: isExpanded ? 0 : 0.5,
+                            ).animate(animation),
+                            child: child,
+                          );
+                        },
+                        child: Icon(
+                          isExpanded ? Icons.chevron_left : Icons.menu,
+                          key: ValueKey<bool>(isExpanded),
+                        ),
                       ),
+                      onPressed: _toggleExpanded,
+                      tooltip: isExpanded ? 'Collapse' : 'Expand',
                     ),
-                    onPressed: _toggleExpanded,
-                    tooltip: isExpanded ? 'Collapse' : 'Expand',
                   ),
                 ],
               ),
             ),
-            ...[WidgetType, WidgetCategory].map(
-              (e) => _buildNavItem(
-                context,
-                label: e.toString(),
-                isSelected: selectedSidebarMode == e,
+            ...["Widget Type", "Widget Category"].map((e) {
+              var mode;
+              if (e == "Widget Type") {
+                mode = WidgetType;
+              } else if (e == "Widget Category") {
+                mode = WidgetCategory;
+              }
+
+              return NavItem(
+                itemHeight: itemHeight,
+                label: e,
+                isSelected: selectedSidebarMode == mode,
                 onTap: () {
-                  ref.read(selectedSidebarModeProvider.notifier).changeType(e);
+                  ref
+                      .read(selectedSidebarModeProvider.notifier)
+                      .changeType(mode);
                 },
-              ),
+              );
+            }),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Divider(thickness: 0.5, height: 0.5),
             ),
-            Divider(),
             Expanded(
               child: ListView.builder(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                 itemCount: catalogItems.length,
                 itemBuilder: (context, index) {
                   final item = catalogItems[index];
-                  return _buildNavItem(
-                    context,
-
+                  return NavItem(
+                    itemHeight: itemHeight,
                     label: item.label,
                     isSelected: selectedSidebarItem == item,
                     onTap: () {
@@ -190,14 +179,25 @@ class _SidebarState extends ConsumerState<Sidebar>
       ),
     );
   }
+}
 
-  Widget _buildNavItem(
-    BuildContext context, {
+class NavItem extends StatelessWidget {
+  const NavItem({
+    super.key,
+    required this.itemHeight,
+    required this.label,
+    required this.isSelected,
+    required this.onTap,
+  });
 
-    required String label,
-    required bool isSelected,
-    required VoidCallback onTap,
-  }) {
+  final double itemHeight;
+
+  final String label;
+  final bool isSelected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
     return Padding(

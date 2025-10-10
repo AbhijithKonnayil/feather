@@ -1,7 +1,7 @@
 import 'package:catalog_website/_generated/block.g.dart';
 import 'package:catalog_website/_generated/component.g.dart';
-import 'package:feather_core/feather_core_default.dart';
-import 'package:feather_ui/_generated/page.g.dart';
+import 'package:catalog_website/_generated/page.g.dart';
+import 'package:feather_core/feather_core.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -108,5 +108,21 @@ class SelectedSidebarItemNotifier extends _$SelectedSidebarItemNotifier {
 
   void changeType(LabeledEnum type) {
     state = type;
+  }
+}
+
+@riverpod
+class SelectedWidgetNotifier extends _$SelectedWidgetNotifier {
+  @override
+  WidgetDetails? build() {
+    return null;
+  }
+
+  void changeWidget(WidgetDetails widget) {
+    state = widget;
+  }
+
+  void toggleWidget(WidgetDetails widget) {
+    state = state == widget ? null : widget;
   }
 }

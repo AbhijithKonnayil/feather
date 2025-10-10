@@ -18,8 +18,8 @@ class AppColors {
   static const Color lightSecondaryText = Color(0xFF696969);
 
   // Dark Theme Colors
-  static const Color darkBackground = Color(0xFF1F212E);
-  static const Color darkSurface = Color(0xFF2A2D3E); // For cards and dialogs
+  static const Color darkBackground = Color(0xFF020618);
+  static const Color darkSurface = Color(0xFF0f172b); // For cards and dialogs
   static const Color darkPrimaryText = Colors.white;
   static const Color darkSecondaryText = Color(0xFFA9AABC);
 

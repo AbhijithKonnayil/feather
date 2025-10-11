@@ -45,6 +45,7 @@ class SelectedScopeNotifier extends _$SelectedScopeNotifier {
   }
 
   void changeScope(WidgetScope scope) {
+    ref.read(selectedWidgetProvider.notifier).changeWidget(null);
     state = scope;
   }
 }
@@ -121,7 +122,7 @@ class SelectedWidgetNotifier extends _$SelectedWidgetNotifier {
     return null;
   }
 
-  void changeWidget(WidgetDetails widget) {
+  void changeWidget(WidgetDetails? widget) {
     state = widget;
   }
 

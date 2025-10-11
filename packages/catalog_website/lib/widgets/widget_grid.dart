@@ -10,26 +10,24 @@ class WidgetGrid extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final theme = Theme.of(context);
     final filteredWidgets = ref.watch(filteredWidgetsProvider);
     if (filteredWidgets.isEmpty) {
       return SizedBox(
         height: 500,
-
         child: Image.asset('assets/images/no_items.png'),
       );
     }
 
     return MasonryGridView.count(
       padding: EdgeInsets.all(0),
-      crossAxisCount: 4,
-      mainAxisSpacing: 8,
-      crossAxisSpacing: 8,
+      crossAxisCount: 3,
+      mainAxisSpacing: 16,
+      crossAxisSpacing: 16,
       itemCount: filteredWidgets.length,
       itemBuilder: (context, index) {
         final item = filteredWidgets[index];
         String? previewImageDevice;
-        double aspectRatio = 1;
+        double? aspectRatio;
         if (item.screens.contains(Screens.mobile)) {
           aspectRatio = 9 / 16;
           previewImageDevice = 'mobile';
@@ -41,26 +39,6 @@ class WidgetGrid extends ConsumerWidget {
           previewImageDevice = 'desktop';
         }
         return GridCard(item: item);
-      },
-    );
-    return GridView.builder(
-      itemCount: filteredWidgets.length,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-      ),
-      itemBuilder: (context, index) {
-        return Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: GestureDetector(
-            onTap: () => ref
-                .read(selectedWidgetProvider.notifier)
-                .toggleWidget(filteredWidgets[index]),
-            child: Card(
-              color: Colors.red,
-              child: Center(child: Text(filteredWidgets[index].name)),
-            ),
-          ),
-        );
       },
     );
   }

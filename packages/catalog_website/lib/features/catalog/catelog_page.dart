@@ -1,6 +1,7 @@
 import 'package:catalog_website/providers/widgets_provider.dart';
 import 'package:catalog_website/widgets/catalog_appbar.dart';
 import 'package:catalog_website/widgets/sidebar.dart';
+import 'package:catalog_website/widgets/widget_grid.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -9,7 +10,6 @@ class CatalogPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final filteredWidgets = ref.watch(filteredWidgetsProvider);
     final selectedWidget = ref.watch(selectedWidgetProvider);
     return Scaffold(
       appBar: const CatalogAppbar(),
@@ -19,25 +19,9 @@ class CatalogPage extends ConsumerWidget {
           children: [
             Sidebar(),
             Expanded(
-              child: GridView.builder(
-                itemCount: filteredWidgets.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                ),
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: GestureDetector(
-                      onTap: () => ref
-                          .read(selectedWidgetProvider.notifier)
-                          .toggleWidget(filteredWidgets[index]),
-                      child: Card(
-                        color: Colors.red,
-                        child: Center(child: Text(filteredWidgets[index].name)),
-                      ),
-                    ),
-                  );
-                },
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: WidgetGrid(),
               ),
             ),
             AnimatedContainer(

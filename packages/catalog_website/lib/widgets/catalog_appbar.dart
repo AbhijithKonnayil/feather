@@ -18,7 +18,8 @@ class CatalogAppbar extends ConsumerWidget implements PreferredSizeWidget {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.surface,
+          backgroundColor: Colors.transparent,
+          surfaceTintColor: Colors.transparent,
           title: Image.asset(
             'assets/images/feather_logo.png',
             fit: BoxFit.contain,

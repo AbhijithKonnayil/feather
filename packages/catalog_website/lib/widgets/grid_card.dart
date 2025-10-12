@@ -85,8 +85,7 @@ class GridCard extends ConsumerWidget {
           _buildTitle(colorScheme, textTheme),
           if (item.description.isNotEmpty)
             _buildDescription(colorScheme, textTheme),
-          if (item.categories.isNotEmpty)
-            _buildCategories(colorScheme, textTheme),
+        
         ],
       ),
     );
@@ -128,7 +127,7 @@ class GridCard extends ConsumerWidget {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: colorScheme.surfaceContainerHighest,
+        // color: colorScheme.surfaceContainerHighest,
         border: Border(
           top: BorderSide(
             color: colorScheme.outlineVariant.withOpacity(0.1),
@@ -136,8 +135,9 @@ class GridCard extends ConsumerWidget {
           ),
         ),
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
+      child: Wrap(
+        spacing: 2,
+        runSpacing: 5,
         children: item.screens
             .map((screen) => _buildDeviceChip(screen, colorScheme, textTheme))
             .toList(),

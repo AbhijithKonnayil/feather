@@ -25,7 +25,6 @@ class CatalogPage extends ConsumerWidget {
               ),
             ),
             AnimatedContainer(
-              color: Colors.green,
               duration: Duration(milliseconds: 300),
               width: selectedWidget == null
                   ? 0

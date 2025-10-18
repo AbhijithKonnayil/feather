@@ -4,7 +4,7 @@ import 'package:feather_core/feather_core.dart';
 import 'package:yaml/yaml.dart';
 
 class FileUtils {
-  static final FLogger _logger = FAppLogger();
+  static final FAppLogger _logger = FAppLogger();
 
   static bool isFlutterDirectory(String path) {
     final pubspecFile = File('$path/pubspec.yaml');

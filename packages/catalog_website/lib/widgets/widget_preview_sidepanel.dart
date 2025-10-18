@@ -1,4 +1,5 @@
 import 'package:catalog_website/widgets/generic_tab_bar.dart';
+import 'package:catalog_website/widgets/text_button.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:feather_core/feather_core.dart';
 import 'package:flutter/material.dart';
@@ -117,23 +118,11 @@ class _WidgetPreviewSidePanelState
             ],
           ),
           Spacer(),
-          MaterialButton(
-            color: colorScheme.primary,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadiusGeometry.circular(8),
-            ),
+          FTextButton(
+            label: "View",
             onPressed: () {
               context.push("/widget-preview", extra: details);
             },
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                "View",
-                style: textTheme.bodyMedium?.copyWith(
-                  color: colorScheme.onPrimary,
-                ),
-              ),
-            ),
           ),
         ],
       ),

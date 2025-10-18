@@ -2,6 +2,7 @@ import 'package:catalog_website/providers/widgets_provider.dart';
 import 'package:catalog_website/widgets/catalog_appbar.dart';
 import 'package:catalog_website/widgets/sidebar.dart';
 import 'package:catalog_website/widgets/widget_grid.dart';
+import 'package:catalog_website/widgets/widget_preview_sidepanel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -35,7 +36,9 @@ class CatalogPage extends ConsumerWidget {
                       margin: const EdgeInsets.all(8.0),
                       height: double.infinity,
                       width: double.infinity,
-                      child: selectedWidget.example(),
+                      child: WidgetPreviewSidePanel(
+                        widgetDetails: selectedWidget,
+                      ),
                     ),
             ),
           ],

@@ -1,4 +1,9 @@
-import 'package:device_preview/device_preview.dart';
+import 'dart:html' as html;
+import 'dart:typed_data';
+
+import 'package:catalog_website/widgets/screenshot_widget.dart';
+import 'package:catalog_website/widgets/text_button.dart';
+import 'package:device_preview_screenshot/device_preview_screenshot.dart';
 import 'package:feather_core/feather_core.dart';
 import 'package:flutter/material.dart';
 
@@ -100,14 +105,32 @@ final Map<Screens, List<DeviceInfo>> deviceInfos = {
 
 class WidgetPreviewPage extends StatelessWidget {
   final WidgetDetails widgetDetails;
-  const WidgetPreviewPage({super.key, required this.widgetDetails});
+  WidgetPreviewPage({super.key, required this.widgetDetails});
   List<DeviceInfo> get defaultDevices => DevicePreview.defaultDevices;
+  final ScreenshotController screenshotController = ScreenshotController();
+  final FAppLogger logger = FAppLogger();
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
-      appBar: AppBar(title: Text(widgetDetails.name)),
+      backgroundColor: theme.scaffoldBackgroundColor,
+      appBar: AppBar(
+        backgroundColor: theme.scaffoldBackgroundColor,
+        title: Text(widgetDetails.name),
+        actions: [
+          FTextButton(
+            onPressed: () {
+              screenshotController.capture();
+            },
+            label: "Screen Shot",
+          ),
+          SizedBox(width: 16),
+        ],
+      ),
       body: Center(
         child: DevicePreview(
+          backgroundColor: theme.scaffoldBackgroundColor,
+          tools: [...DevicePreview.defaultTools],
           devices: [
             if (widgetDetails.screens.contains(Screens.desktop))
               ...defaultDevices.where(
@@ -122,9 +145,51 @@ class WidgetPreviewPage extends StatelessWidget {
                 (device) => device.identifier.type == DeviceType.phone,
               ),
           ],
-          builder: (context) => widgetDetails.example(),
+          builder: (context) {
+            final device = DevicePreview.selectedDevice(context);
+            final screen = device.identifier.type == DeviceType.desktop
+                ? Screens.desktop
+                : device.identifier.type == DeviceType.tablet
+                ? Screens.tablet
+                : Screens.mobile;
+            return ScreenshotCaptureWidget(
+              fileName: widgetDetails.name,
+              child: widgetDetails.example(),
+              controller: screenshotController,
+              onScreenshot: (bytes) async {
+                try {
+                  await saveScreenshotWeb(
+                    bytes: bytes,
+                    fileName: widgetDetails.getScreenshotFilename(screen),
+                  );
+                } catch (e) {
+                  logger.error(e.toString());
+                }
+              },
+            );
+          },
         ),
       ),
     );
+  }
+
+  Future<void> saveScreenshotWeb({
+    required Uint8List bytes,
+    required String fileName,
+  }) async {
+    try {
+      final blob = html.Blob([
+        bytes,
+      ]); // Create a binary blob from your screenshot bytes
+      final url = html.Url.createObjectUrlFromBlob(blob);
+      final anchor = html.AnchorElement(href: url)
+        ..setAttribute("download", fileName)
+        ..click(); // Triggers the download
+
+      html.Url.revokeObjectUrl(url); // Clean up
+      logger.success("Screenshot saved successfully!");
+    } catch (e) {
+      logger.error("Error saving screenshot: $e");
+    }
   }
 }

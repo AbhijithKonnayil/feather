@@ -4,7 +4,7 @@ import 'package:cli_completion/cli_completion.dart';
 import 'package:feather_cli/src/commands/commands.dart';
 import 'package:feather_cli/src/commands/dev/dev_command.dart';
 import 'package:feather_cli/src/version.dart';
-import 'package:mason_logger/mason_logger.dart';
+import 'package:feather_core/feather_core.dart';
 import 'package:pub_updater/pub_updater.dart';
 
 const executableName = 'feather_cli';
@@ -20,8 +20,8 @@ const description = 'A Very Good Project created by Very Good CLI.';
 /// {@endtemplate}
 class FeatherCliCommandRunner extends CompletionCommandRunner<int> {
   /// {@macro feather_cli_command_runner}
-  FeatherCliCommandRunner({Logger? logger, PubUpdater? pubUpdater})
-    : _logger = logger ?? Logger(),
+  FeatherCliCommandRunner({FConsoleLogger? logger, PubUpdater? pubUpdater})
+    : _logger = logger ?? FConsoleLogger(),
       _pubUpdater = pubUpdater ?? PubUpdater(),
       super(executableName, description) {
     // Add root options and flags
@@ -46,7 +46,7 @@ class FeatherCliCommandRunner extends CompletionCommandRunner<int> {
   @override
   void printUsage() => _logger.info(usage);
 
-  final Logger _logger;
+  final FConsoleLogger _logger;
   final PubUpdater _pubUpdater;
 
   @override
@@ -54,15 +54,16 @@ class FeatherCliCommandRunner extends CompletionCommandRunner<int> {
     try {
       final topLevelResults = parse(args);
       if (topLevelResults['verbose'] == true) {
-        _logger.level = Level.verbose;
+        //TODO
+        _logger.setLogLevel(Level.verbose);
       }
       return await runCommand(topLevelResults) ?? ExitCode.success.code;
     } on FormatException catch (e, stackTrace) {
       // On format errors, show the commands error message, root usage and
       // exit with an error code
       _logger
-        ..err(e.message)
-        ..err('$stackTrace')
+        ..error(e.message)
+        ..error('$stackTrace')
         ..info('')
         ..info(usage);
       return ExitCode.usage.code;
@@ -70,7 +71,7 @@ class FeatherCliCommandRunner extends CompletionCommandRunner<int> {
       // On usage errors, show the commands usage message and
       // exit with an error code
       _logger
-        ..err(e.message)
+        ..error(e.message)
         ..info('')
         ..info(e.usage);
       return ExitCode.usage.code;
@@ -87,21 +88,21 @@ class FeatherCliCommandRunner extends CompletionCommandRunner<int> {
 
     // Verbose logs
     _logger
-      ..detail('Argument information:')
-      ..detail('  Top level options:');
+      ..debug('Argument information:')
+      ..debug('  Top level options:');
     for (final option in topLevelResults.options) {
       if (topLevelResults.wasParsed(option)) {
-        _logger.detail('  - $option: ${topLevelResults[option]}');
+        _logger.debug('  - $option: ${topLevelResults[option]}');
       }
     }
     if (topLevelResults.command != null) {
       final commandResult = topLevelResults.command!;
       _logger
-        ..detail('  Command: ${commandResult.name}')
-        ..detail('    Command options:');
+        ..debug('  Command: ${commandResult.name}')
+        ..debug('    Command options:');
       for (final option in commandResult.options) {
         if (commandResult.wasParsed(option)) {
-          _logger.detail('    - $option: ${commandResult[option]}');
+          _logger.debug('    - $option: ${commandResult[option]}');
         }
       }
     }
@@ -138,7 +139,7 @@ ${lightYellow.wrap('Update available!')} ${lightCyan.wrap(packageVersion)} \u219
 Run ${lightCyan.wrap('$executableName update')} to update''');
       }
     } on Exception catch (_) {
-      _logger.err('Failed to check for updates.');
+      _logger.error('Failed to check for updates.');
     }
   }
 }

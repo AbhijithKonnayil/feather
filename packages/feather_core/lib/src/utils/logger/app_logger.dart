@@ -2,33 +2,33 @@ import 'package:logger/logger.dart';
 
 import './logger.dart';
 
-class FAppLogger extends Logger implements FLogger {
+class FAppLogger implements FLogger {
   static final FAppLogger _instance = FAppLogger._internal();
   factory FAppLogger() => _instance;
   FAppLogger._internal();
-
+  final Logger _logger = Logger();
   @override
   void debug(String message) {
-    d(message);
+    _logger.d(message);
   }
 
   @override
   void error(String message, [Object? error, StackTrace? stackTrace]) {
-    f(message, error: error, stackTrace: stackTrace);
+    _logger.f(message, error: error, stackTrace: stackTrace);
   }
 
   @override
   void info(String message) {
-    i(message);
+    _logger.i(message);
   }
 
   @override
   void success(String message) {
-    i(message);
+    _logger.i(message);
   }
 
   @override
   void warn(String message) {
-    w(message);
+    _logger.w(message);
   }
 }

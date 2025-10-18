@@ -3,19 +3,15 @@ import 'dart:io';
 import 'package:args/command_runner.dart';
 import 'package:feather_cli/src/command_runner.dart';
 import 'package:feather_cli/src/version.dart';
-import 'package:mason_logger/mason_logger.dart';
+import 'package:feather_core/feather_core.dart';
 import 'package:pub_updater/pub_updater.dart';
 
-/// {@template update_command}
-/// A command which updates the CLI.
-/// {@endtemplate}
 class UpdateCommand extends Command<int> {
-  /// {@macro update_command}
-  UpdateCommand({required Logger logger, PubUpdater? pubUpdater})
+  UpdateCommand({required FConsoleLogger logger, PubUpdater? pubUpdater})
     : _logger = logger,
       _pubUpdater = pubUpdater ?? PubUpdater();
 
-  final Logger _logger;
+  final FConsoleLogger _logger;
   final PubUpdater _pubUpdater;
 
   @override
@@ -34,7 +30,7 @@ class UpdateCommand extends Command<int> {
       latestVersion = await _pubUpdater.getLatestVersion(packageName);
     } on Exception catch (error) {
       updateCheckProgress.fail();
-      _logger.err('$error');
+      _logger.error('$error');
       return ExitCode.software.code;
     }
     updateCheckProgress.complete('Checked for updates');
@@ -55,13 +51,13 @@ class UpdateCommand extends Command<int> {
       );
     } on Exception catch (error) {
       updateProgress.fail();
-      _logger.err('$error');
+      _logger.error('$error');
       return ExitCode.software.code;
     }
 
     if (result.exitCode != ExitCode.success.code) {
       updateProgress.fail();
-      _logger.err('Error updating CLI: ${result.stderr}');
+      _logger.error('Error updating CLI: ${result.stderr}');
       return ExitCode.software.code;
     }
 

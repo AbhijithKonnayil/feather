@@ -1,11 +1,10 @@
 import 'dart:io';
 
-import 'package:feather_core/src/core/exception.dart';
-import 'package:feather_core/src/utils/logger.dart';
+import 'package:feather_core/feather_core.dart';
 import 'package:yaml/yaml.dart';
 
 class FileUtils {
-  static final FLogger _logger = FLogger();
+  static final FLogger _logger = FAppLogger();
 
   static bool isFlutterDirectory(String path) {
     final pubspecFile = File('$path/pubspec.yaml');
@@ -48,11 +47,11 @@ class FileUtils {
       _logger.success('✅ File created: $path');
     } on FileSystemException catch (e) {
       _logger
-        ..err('❌ Failed to create file: $path')
-        ..detail(e.toString());
+        ..error('❌ Failed to create file: $path')
+        ..debug(e.toString());
       rethrow; // let caller handle if needed
     } catch (e) {
-      _logger.err('❌ Unexpected error while creating file: $e');
+      _logger.error('❌ Unexpected error while creating file: $e');
       rethrow;
     }
   }

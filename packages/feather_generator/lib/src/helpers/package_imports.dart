@@ -4,10 +4,10 @@ import 'package:analyzer/dart/element/element.dart';
 import 'package:feather_core/feather_core.dart';
 
 class PackageImportsHelper {
-  static late final FLogger logger;
+  static late final FAppLogger logger;
 
-  PackageImportsHelper([FLogger? logger]) {
-    logger = logger ?? FLogger();
+  PackageImportsHelper([FAppLogger? logger]) {
+    logger = logger ?? FAppLogger();
   }
 
   /// Extracts the raw URI strings (best-effort) imported by the entire library
@@ -40,8 +40,8 @@ class PackageImportsHelper {
       );
       if (!isAllowed) {
         logger
-          ..err('Package not allowed: $import')
-          ..err(
+          ..error('Package not allowed: $import')
+          ..error(
             'only import from these packages are allowed: $allowedPackages',
           );
         return false;

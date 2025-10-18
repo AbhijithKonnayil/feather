@@ -4,10 +4,9 @@ import 'dart:io';
 import 'package:feather_cli/src/core/command.dart';
 import 'package:feather_cli/src/core/http_client.dart';
 import 'package:feather_core/feather_core.dart';
-import 'package:mason_logger/mason_logger.dart';
 
 class AddCommand extends FCommand {
-  AddCommand({required Logger logger}) : _logger = logger {
+  AddCommand({required FConsoleLogger logger}) : _logger = logger {
     argParser.addOption(
       'scope',
       abbr: 's',
@@ -23,7 +22,7 @@ class AddCommand extends FCommand {
   @override
   String get name => 'add';
 
-  final Logger _logger;
+  final FConsoleLogger _logger;
   final FHttpClient httpClient = FHttpClient();
   WidgetScope? widgetScope;
   String? widgetName;
@@ -38,10 +37,10 @@ class AddCommand extends FCommand {
       }
       return data as Map<String, dynamic>;
     } on HttpException catch (e) {
-      _logger.err(e.message);
+      _logger.error(e.message);
       throw FException('Failed to fetch registry');
     } on Exception catch (e) {
-      _logger.err(e.toString());
+      _logger.error(e.toString());
       throw FException('Failed to fetch registry');
     }
   }
@@ -74,10 +73,10 @@ class AddCommand extends FCommand {
       _logger.info(result.stdout.toString());
     }
     if (result.stderr != null && result.stderr.toString().isNotEmpty) {
-      _logger.err(result.stderr.toString());
+      _logger.error(result.stderr.toString());
     }
     if (result.exitCode != 0) {
-      _logger.err('Process exited with code ${result.exitCode}');
+      _logger.error('Process exited with code ${result.exitCode}');
     }
   }
 
@@ -98,7 +97,7 @@ class AddCommand extends FCommand {
       widgetName = args.first;
     }
     if (widgetName == null) {
-      _logger.err('Widget name is required');
+      _logger.error('Widget name is required');
       return false;
     }
     return true;

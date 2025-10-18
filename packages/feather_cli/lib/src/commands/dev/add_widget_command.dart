@@ -4,11 +4,10 @@ import 'dart:io';
 import 'package:change_case/change_case.dart';
 import 'package:feather_cli/src/core/command.dart';
 import 'package:feather_core/feather_core.dart';
-import 'package:mason_logger/mason_logger.dart';
 
 class AddWidgetCommand extends FCommand {
   /// {@macro sample_command}
-  AddWidgetCommand({required Logger logger}) : _logger = logger {
+  AddWidgetCommand({required FConsoleLogger logger}) : _logger = logger {
     argParser.addOption(
       'scope',
       abbr: 's',
@@ -24,7 +23,7 @@ class AddWidgetCommand extends FCommand {
   @override
   String get name => 'add_widget';
 
-  final Logger _logger;
+  final FConsoleLogger _logger;
 
   /// Reads the registry.json file and returns it as a Map
 

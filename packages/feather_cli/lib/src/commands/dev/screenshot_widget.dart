@@ -3,11 +3,10 @@ import 'dart:io';
 
 import 'package:feather_cli/src/core/command.dart';
 import 'package:feather_core/feather_core.dart';
-import 'package:mason_logger/mason_logger.dart';
 
 class ScreenshotWidgetCommand extends FCommand {
   /// {@macro sample_command}
-  ScreenshotWidgetCommand({required Logger logger}) : _logger = logger {
+  ScreenshotWidgetCommand({required FConsoleLogger logger}) : _logger = logger {
     argParser
       ..addOption(
         'scope',
@@ -30,7 +29,7 @@ class ScreenshotWidgetCommand extends FCommand {
   @override
   String get name => 'screenshot_widget';
 
-  final Logger _logger;
+  final FConsoleLogger _logger;
 
   /// Reads the registry.json file and returns it as a Map
 

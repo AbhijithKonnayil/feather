@@ -46,7 +46,8 @@ enum PageCategory implements WidgetCategory {
   ecommerce('E-commerce'),
   dashboard('Dashboard / Analytics'),
   productivity('Productivity'),
-  media('Media');
+  media('Media'),
+  miscellaneous('Miscellaneous');
 
   const PageCategory(this.label);
 

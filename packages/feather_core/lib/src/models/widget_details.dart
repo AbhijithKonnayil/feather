@@ -1,4 +1,4 @@
-import 'package:feather_core/src/annotations/widget_annotations.dart';
+import 'package:feather_core/feather_core.dart';
 
 class WidgetDetails extends WidgetMeta {
   WidgetDetails({
@@ -14,4 +14,7 @@ class WidgetDetails extends WidgetMeta {
   });
   final dynamic Function() example;
   String get installCommand => 'feather add -s ${scope.name} $id';
+  String getScreenshotFilename(Screens screen) => "${id}_${screen.name}.jpeg";
+  String getScreenshotPath(Screens screen) =>
+      "screenshots/${scope.name}/${getScreenshotFilename(screen)}";
 }

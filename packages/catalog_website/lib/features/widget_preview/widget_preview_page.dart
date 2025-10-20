@@ -1,9 +1,10 @@
 import 'dart:html' as html;
 import 'dart:typed_data';
 
+import 'package:catalog_website/core/screen_meta.dart';
 import 'package:catalog_website/widgets/screenshot_widget.dart';
 import 'package:catalog_website/widgets/text_button.dart';
-import 'package:device_preview_screenshot/device_preview_screenshot.dart';
+import 'package:device_preview/device_preview.dart';
 import 'package:feather_core/feather_core.dart';
 import 'package:flutter/material.dart';
 
@@ -102,11 +103,10 @@ final Map<Screens, List<DeviceInfo>> deviceInfos = {
     ),
   ],
 };
-
 class WidgetPreviewPage extends StatelessWidget {
   final WidgetDetails widgetDetails;
   WidgetPreviewPage({super.key, required this.widgetDetails});
-  List<DeviceInfo> get defaultDevices => DevicePreview.defaultDevices;
+  List<DeviceInfo> get displayedDevices => [...DevicePreview.defaultDevices];
   final ScreenshotController screenshotController = ScreenshotController();
   final FAppLogger logger = FAppLogger();
   @override
@@ -133,17 +133,20 @@ class WidgetPreviewPage extends StatelessWidget {
           tools: [...DevicePreview.defaultTools],
           devices: [
             if (widgetDetails.screens.contains(Screens.desktop))
-              ...defaultDevices.where(
-                (device) => device.identifier.type == DeviceType.desktop,
-              ),
+              ...[
+                ScreenMeta.getPreviewDeviceInfo(Screens.desktop),
+                ...displayedDevices,
+              ].where((device) => device.identifier.type == DeviceType.desktop),
             if (widgetDetails.screens.contains(Screens.tablet))
-              ...defaultDevices.where(
-                (device) => device.identifier.type == DeviceType.tablet,
-              ),
+              ...[
+                ScreenMeta.getPreviewDeviceInfo(Screens.tablet),
+                ...displayedDevices,
+              ].where((device) => device.identifier.type == DeviceType.tablet),
             if (widgetDetails.screens.contains(Screens.mobile))
-              ...defaultDevices.where(
-                (device) => device.identifier.type == DeviceType.phone,
-              ),
+              ...[
+                ScreenMeta.getPreviewDeviceInfo(Screens.mobile),
+                ...displayedDevices,
+              ].where((device) => device.identifier.type == DeviceType.phone),
           ],
           builder: (context) {
             final device = DevicePreview.selectedDevice(context);

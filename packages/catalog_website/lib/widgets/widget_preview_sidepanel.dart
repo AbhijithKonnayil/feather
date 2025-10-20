@@ -1,3 +1,4 @@
+import 'package:catalog_website/core/screen_meta.dart';
 import 'package:catalog_website/widgets/generic_tab_bar.dart';
 import 'package:catalog_website/widgets/text_button.dart';
 import 'package:device_preview/device_preview.dart';
@@ -6,31 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
-final Map<Screens, DeviceInfo> deviceFrames = {
-  Screens.desktop: DeviceInfo.genericDesktopMonitor(
-    id: 'desktop',
-    platform: TargetPlatform.windows,
-    name: 'Desktop',
-    screenSize: const Size(1920, 1080),
-    safeAreas: const EdgeInsets.all(8.0),
-    windowPosition: Rect.fromLTWH(0, 0, 1920, 1080),
-  ),
-  Screens.mobile: DeviceInfo.genericPhone(
-    id: 'mobile',
-    platform: TargetPlatform.android,
-    name: 'Mobile',
-    screenSize: const Size(400, 800),
-    safeAreas: const EdgeInsets.all(8.0),
-  ),
-  Screens.tablet: DeviceInfo.genericTablet(
-    id: 'tablet',
-    platform: TargetPlatform.android,
-    name: 'Tablet',
-    screenSize: const Size(800, 1200),
-    safeAreas: const EdgeInsets.all(8.0),
-  ),
-};
 
 class WidgetPreviewSidePanel extends ConsumerStatefulWidget {
   final WidgetDetails widgetDetails;
@@ -156,11 +132,11 @@ class _WidgetPreviewSidePanelState
         child: ClipRRect(
           borderRadius: BorderRadius.circular(8),
           child: DeviceFrame(
-            device: deviceFrames[selectedScreen]!,
+            device: ScreenMeta.getPreviewDeviceInfo(selectedScreen),
             screen: Container(
-              color: Colors.white,
+              color: Colors.red,
               child: Image.asset(
-                "assets/screenshots/${details.id}_${selectedScreen.name}.jpeg",
+                details.getScreenshotPath(selectedScreen),
                 fit: BoxFit.contain,
                 errorBuilder: (context, error, stackTrace) =>
                     _buildPreviewError(textTheme, colorScheme),
@@ -334,16 +310,5 @@ class _WidgetPreviewSidePanelState
       ),
       const SizedBox(height: 12),
     ];
-  }
-
-  IconData _getDeviceIcon(Screens screen) {
-    switch (screen) {
-      case Screens.mobile:
-        return Icons.phone_android;
-      case Screens.tablet:
-        return Icons.tablet_android;
-      case Screens.desktop:
-        return Icons.desktop_windows;
-    }
   }
 }

@@ -49,7 +49,8 @@ enum PageType implements WidgetType {
   onboardingPage('Onboarding Page'),
   authPage('Authentication Page'),
   checkoutPage('Checkout Page'),
-  landingPage('Landing Page');
+  landingPage('Landing Page'),
+  layout('Layout');
 
   const PageType(this.label);
 

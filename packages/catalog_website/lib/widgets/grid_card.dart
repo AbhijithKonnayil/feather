@@ -1,3 +1,4 @@
+import 'package:catalog_website/core/screen_meta.dart';
 import 'package:catalog_website/providers/widgets_provider.dart';
 import 'package:feather_core/feather_core.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +40,6 @@ class GridCard extends ConsumerWidget {
     TextTheme textTheme,
   ) {
     final previewImageDevice = _getPreviewDevice();
-    final aspectRatio = _getAspectRatio(previewImageDevice);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -53,9 +53,8 @@ class GridCard extends ConsumerWidget {
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Center(
-              child: AspectRatio(
-                aspectRatio: aspectRatio,
-                child: _buildPreviewImage(
+              child: horizontalOrVertical(
+                _buildPreviewImage(
                   context,
                   previewImageDevice,
                   colorScheme,
@@ -68,6 +67,19 @@ class GridCard extends ConsumerWidget {
         // Device info bar
         _buildDeviceInfoBar(colorScheme, textTheme),
       ],
+    );
+  }
+
+  Widget horizontalOrVertical(Widget child) {
+    final device = _getPreviewDevice();
+    final size = ScreenMeta.getPreviewMeta(device).size;
+    final aspectRatio = size.aspectRatio;
+    if ([Screens.tablet, Screens.desktop].contains(device)) {
+      return AspectRatio(aspectRatio: aspectRatio, child: child);
+    }
+    return ConstrainedBox(
+      constraints: BoxConstraints(maxHeight: size.height * 0.75),
+      child: child,
     );
   }
 
@@ -85,7 +97,6 @@ class GridCard extends ConsumerWidget {
           _buildTitle(colorScheme, textTheme),
           if (item.description.isNotEmpty)
             _buildDescription(colorScheme, textTheme),
-        
         ],
       ),
     );
@@ -94,7 +105,7 @@ class GridCard extends ConsumerWidget {
   /// Builds the preview image with error handling
   Widget _buildPreviewImage(
     BuildContext context,
-    String device,
+    Screens device,
     ColorScheme colorScheme,
     TextTheme textTheme,
   ) {
@@ -113,7 +124,7 @@ class GridCard extends ConsumerWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(12),
         child: Image.asset(
-          "assets/screenshots/${item.id.toLowerCase()}_$device.jpeg",
+          item.getScreenshotPath(device),
           fit: BoxFit.cover,
           errorBuilder: (context, error, stackTrace) =>
               _buildErrorState(context, textTheme, colorScheme),
@@ -126,6 +137,7 @@ class GridCard extends ConsumerWidget {
   Widget _buildDeviceInfoBar(ColorScheme colorScheme, TextTheme textTheme) {
     return Container(
       padding: const EdgeInsets.all(12),
+      width: double.infinity,
       decoration: BoxDecoration(
         // color: colorScheme.surfaceContainerHighest,
         border: Border(
@@ -171,19 +183,11 @@ class GridCard extends ConsumerWidget {
 
   /// Builds the device icon based on screen type
   Widget _buildDeviceIcon(Screens screen, ColorScheme colorScheme) {
-    return Icon(_getDeviceIcon(screen), size: 14, color: colorScheme.primary);
-  }
-
-  /// Returns the appropriate icon for the device type
-  IconData _getDeviceIcon(Screens screen) {
-    switch (screen) {
-      case Screens.mobile:
-        return Icons.phone_android;
-      case Screens.tablet:
-        return Icons.tablet_android;
-      case Screens.desktop:
-        return Icons.desktop_windows;
-    }
+    return Icon(
+      ScreenMeta.getPreviewMeta(screen).icon,
+      size: 14,
+      color: colorScheme.primary,
+    );
   }
 
   /// Builds the device label text
@@ -281,22 +285,10 @@ class GridCard extends ConsumerWidget {
   }
 
   /// Returns the preview device based on available screens
-  String _getPreviewDevice() {
-    if (item.screens.contains(Screens.mobile)) return 'mobile';
-    if (item.screens.contains(Screens.tablet)) return 'tablet';
-    return 'desktop';
-  }
-
-  /// Returns the aspect ratio for the given device type
-  double _getAspectRatio(String device) {
-    switch (device) {
-      case 'mobile':
-        return 9 / 16;
-      case 'tablet':
-        return 3 / 4;
-      default:
-        return 16 / 9;
-    }
+  Screens _getPreviewDevice() {
+    if (item.screens.contains(Screens.mobile)) return Screens.mobile;
+    if (item.screens.contains(Screens.tablet)) return Screens.tablet;
+    return Screens.desktop;
   }
 
   /// Builds the error state widget

@@ -87,7 +87,7 @@ part '$fileName.example.dart';
 
 @$annotation(
   id: '$widgetId',
-  name: '$widgetName',
+  name: '${widgetName.toCapitalCase()}',
   description: 'A simple $widgetName component for demo',
   files: [],
   //TODO: add screen types

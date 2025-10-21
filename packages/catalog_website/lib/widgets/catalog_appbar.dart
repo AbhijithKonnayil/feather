@@ -3,6 +3,7 @@ import 'package:catalog_website/widgets/scope_tab.dart';
 import 'package:catalog_website/widgets/search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CatalogAppbar extends ConsumerWidget implements PreferredSizeWidget {
@@ -20,10 +21,21 @@ class CatalogAppbar extends ConsumerWidget implements PreferredSizeWidget {
         child: AppBar(
           backgroundColor: Colors.transparent,
           surfaceTintColor: Colors.transparent,
-          title: Image.asset(
-            'assets/images/feather_logo.png',
-            fit: BoxFit.contain,
-            height: 40,
+          title: Row(
+            children: [
+              Image.asset(
+                'assets/images/feather_logo.png',
+                fit: BoxFit.contain,
+                height: 40,
+              ),
+              Text(
+                "Feather",
+                style: GoogleFonts.alexBrush(
+                  fontSize: 32,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              ),
+            ],
           ),
           toolbarHeight: 50,
           actions: [

@@ -1,4 +1,4 @@
-import 'dart:html' as html;
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:catalog_website/core/screen_meta.dart';
@@ -7,6 +7,7 @@ import 'package:catalog_website/widgets/text_button.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:feather_core/feather_core.dart';
 import 'package:flutter/material.dart';
+import 'package:web/web.dart' as web;
 
 final Map<Screens, List<DeviceInfo>> deviceInfos = {
   Screens.desktop: [
@@ -103,6 +104,7 @@ final Map<Screens, List<DeviceInfo>> deviceInfos = {
     ),
   ],
 };
+
 class WidgetPreviewPage extends StatelessWidget {
   final WidgetDetails widgetDetails;
   WidgetPreviewPage({super.key, required this.widgetDetails});
@@ -161,7 +163,7 @@ class WidgetPreviewPage extends StatelessWidget {
               controller: screenshotController,
               onScreenshot: (bytes) async {
                 try {
-                  await saveScreenshotWeb(
+                  await saveScreenshotWebWasm(
                     bytes: bytes,
                     fileName: widgetDetails.getScreenshotFilename(screen),
                   );
@@ -176,23 +178,41 @@ class WidgetPreviewPage extends StatelessWidget {
     );
   }
 
-  Future<void> saveScreenshotWeb({
+  Future<void> saveScreenshotWebWasm({
     required Uint8List bytes,
     required String fileName,
   }) async {
     try {
-      final blob = html.Blob([
-        bytes,
-      ]); // Create a binary blob from your screenshot bytes
-      final url = html.Url.createObjectUrlFromBlob(blob);
-      final anchor = html.AnchorElement(href: url)
-        ..setAttribute("download", fileName)
-        ..click(); // Triggers the download
+      // Ensure filename has an image extension
+      final normalizedName = fileName.toLowerCase().endsWith('.png')
+          ? fileName
+          : '$fileName.png';
 
-      html.Url.revokeObjectUrl(url); // Clean up
-      logger.success("Screenshot saved successfully!");
+      // Build a data URL to avoid Blob/typed array interop issues
+      final dataUrl = 'data:image/png;base64,' + base64Encode(bytes);
+
+      // Create a hidden <a> element for download
+      final anchor = web.HTMLAnchorElement()
+        ..href = dataUrl
+        ..download = normalizedName
+        ..style.display = 'none'
+        ..rel = 'noopener';
+
+      // Fallback for browsers that ignore download attribute (iOS Safari)
+      if (anchor.download.isEmpty) {
+        anchor.target = '_blank';
+      }
+
+      // Add to document and trigger click
+      web.document.body!.appendChild(anchor);
+      anchor.click();
+
+      // Clean up
+      anchor.remove();
+
+      print('Screenshot saved successfully!');
     } catch (e) {
-      logger.error("Error saving screenshot: $e");
+      print('Error saving screenshot: $e');
     }
   }
 }

@@ -14,6 +14,7 @@ class ScopeTab extends ConsumerWidget {
 
     return GenericTabBar<WidgetScope>(
       items: WidgetScope.values.toList(),
+      labelBuilder: (scope) => scope.name.toUpperCase(),
       initialValue: selectedScope,
       onItemSelected: (scope) => notifier.changeScope(scope),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),

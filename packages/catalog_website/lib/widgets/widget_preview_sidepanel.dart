@@ -20,14 +20,8 @@ class WidgetPreviewSidePanel extends ConsumerStatefulWidget {
 
 class _WidgetPreviewSidePanelState
     extends ConsumerState<WidgetPreviewSidePanel> {
-  late Screens selectedScreen;
+  Screens? selectedScreen;
   bool _isCopied = false;
-
-  @override
-  void initState() {
-    super.initState();
-    //  selectedScreen = widget.widgetDetails.screens.first;
-  }
 
   Future<void> _copyToClipboard(String text) async {
     await Clipboard.setData(ClipboardData(text: text));
@@ -36,6 +30,10 @@ class _WidgetPreviewSidePanelState
     if (mounted) {
       setState(() => _isCopied = false);
     }
+  }
+
+  Screens getSelectedScreen() {
+    return selectedScreen ?? ref.watch(selectedWidgetProvider)!.screens.first;
   }
 
   @override
@@ -48,7 +46,7 @@ class _WidgetPreviewSidePanelState
     if (details == null) {
       return Container();
     }
-    selectedScreen = details.screens.first;
+
     return Container(
       width: MediaQuery.of(context).size.width * 0.5,
       decoration: BoxDecoration(
@@ -117,7 +115,7 @@ class _WidgetPreviewSidePanelState
       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
       child: GenericTabBar<Screens>(
         items: details.screens,
-        initialValue: selectedScreen,
+        initialValue: getSelectedScreen(),
         onItemSelected: (screen) => setState(() => selectedScreen = screen),
         labelBuilder: (screen) => screen.name.toUpperCase(),
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -128,7 +126,6 @@ class _WidgetPreviewSidePanelState
   Widget _buildPreviewArea(ThemeData theme, WidgetDetails details) {
     final colorScheme = theme.colorScheme;
     final textTheme = theme.textTheme;
-
     return Expanded(
       child: Container(
         margin: const EdgeInsets.all(8),
@@ -139,11 +136,11 @@ class _WidgetPreviewSidePanelState
         child: ClipRRect(
           borderRadius: BorderRadius.circular(8),
           child: DeviceFrame(
-            device: ScreenMeta.getPreviewDeviceInfo(selectedScreen),
+            device: ScreenMeta.getPreviewDeviceInfo(getSelectedScreen()),
             screen: Container(
-              color: Colors.red,
+              color: Colors.white,
               child: Image.asset(
-                details.getScreenshotPath(selectedScreen),
+                details.getScreenshotPath(getSelectedScreen()),
                 fit: BoxFit.contain,
                 errorBuilder: (context, error, stackTrace) =>
                     _buildPreviewError(textTheme, colorScheme),

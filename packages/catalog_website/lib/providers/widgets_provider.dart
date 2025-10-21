@@ -1,6 +1,7 @@
 import 'package:catalog_website/_generated/block.g.dart';
 import 'package:catalog_website/_generated/component.g.dart';
 import 'package:catalog_website/_generated/page.g.dart';
+import 'package:catalog_website/features/catalog/catelog_page.dart';
 import 'package:catalog_website/providers/search_provider.dart';
 import 'package:feather_core/feather_core.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -119,11 +120,19 @@ class SelectedSidebarItemNotifier extends _$SelectedSidebarItemNotifier {
 class SelectedWidgetNotifier extends _$SelectedWidgetNotifier {
   @override
   WidgetDetails? build() {
+    ref.keepAlive();
     return null;
   }
 
   void changeWidget(WidgetDetails? widget) {
     state = widget;
+  }
+
+  void openWidget(WidgetDetails widget) {
+    state = widget;
+    if (state != null) {
+      scaffoldKey.currentState?.openEndDrawer();
+    }
   }
 
   void toggleWidget(WidgetDetails widget) {

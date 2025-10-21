@@ -1,4 +1,3 @@
-import 'package:catalog_website/providers/widgets_provider.dart';
 import 'package:catalog_website/widgets/catalog_appbar.dart';
 import 'package:catalog_website/widgets/sidebar.dart';
 import 'package:catalog_website/widgets/widget_grid.dart';
@@ -6,13 +5,17 @@ import 'package:catalog_website/widgets/widget_preview_sidepanel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
 class CatalogPage extends ConsumerWidget {
   const CatalogPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selectedWidget = ref.watch(selectedWidgetProvider);
+    //final selectedWidget = ref.watch(selectedWidgetProvider);
     return Scaffold(
+      key: scaffoldKey,
+      endDrawer: WidgetPreviewSidePanel(),
       appBar: const CatalogAppbar(),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -25,7 +28,8 @@ class CatalogPage extends ConsumerWidget {
                 child: WidgetGrid(),
               ),
             ),
-            AnimatedContainer(
+
+            /*  AnimatedContainer(
               duration: Duration(milliseconds: 300),
               width: selectedWidget == null
                   ? 0
@@ -40,7 +44,7 @@ class CatalogPage extends ConsumerWidget {
                         widgetDetails: selectedWidget,
                       ),
                     ),
-            ),
+            ), */
           ],
         ),
       ),

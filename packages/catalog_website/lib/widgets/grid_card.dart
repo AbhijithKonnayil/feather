@@ -19,8 +19,9 @@ class GridCard extends ConsumerWidget {
       shape: _buildCardShape(colorScheme),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
-        onTap: () =>
-            ref.read(selectedWidgetProvider.notifier).toggleWidget(item),
+        onTap: () {
+          ref.read(selectedWidgetProvider.notifier).openWidget(item);
+        },
         borderRadius: BorderRadius.circular(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

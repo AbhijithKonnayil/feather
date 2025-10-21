@@ -1,4 +1,5 @@
 import 'package:catalog_website/core/screen_meta.dart';
+import 'package:catalog_website/providers/widgets_provider.dart';
 import 'package:catalog_website/widgets/generic_tab_bar.dart';
 import 'package:catalog_website/widgets/text_button.dart';
 import 'package:device_preview/device_preview.dart';
@@ -9,8 +10,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class WidgetPreviewSidePanel extends ConsumerStatefulWidget {
-  final WidgetDetails widgetDetails;
-  const WidgetPreviewSidePanel({super.key, required this.widgetDetails});
+  //final WidgetDetails? widgetDetails;
+  const WidgetPreviewSidePanel({super.key});
 
   @override
   ConsumerState<WidgetPreviewSidePanel> createState() =>
@@ -25,7 +26,7 @@ class _WidgetPreviewSidePanelState
   @override
   void initState() {
     super.initState();
-    selectedScreen = widget.widgetDetails.screens.first;
+    //  selectedScreen = widget.widgetDetails.screens.first;
   }
 
   Future<void> _copyToClipboard(String text) async {
@@ -41,9 +42,15 @@ class _WidgetPreviewSidePanelState
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    final details = widget.widgetDetails;
-
+    // final details = widget.widgetDetails;
+    final details = ref.watch(selectedWidgetProvider);
+    print("details $details");
+    if (details == null) {
+      return Container();
+    }
+    selectedScreen = details.screens.first;
     return Container(
+      width: MediaQuery.of(context).size.width * 0.5,
       decoration: BoxDecoration(
         color: colorScheme.surfaceContainer,
         borderRadius: BorderRadius.circular(12),

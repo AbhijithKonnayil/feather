@@ -142,8 +142,9 @@ class _WidgetPreviewSidePanelState
               child: Image.asset(
                 details.getScreenshotPath(getSelectedScreen()),
                 fit: BoxFit.contain,
-                errorBuilder: (context, error, stackTrace) =>
-                    _buildPreviewError(textTheme, colorScheme),
+                errorBuilder: (context, error, stackTrace) {
+                  return _buildPreviewError(textTheme, colorScheme);
+                },
               ),
             ),
           ),
@@ -155,20 +156,32 @@ class _WidgetPreviewSidePanelState
   Widget _buildPreviewError(TextTheme textTheme, ColorScheme colorScheme) {
     return Center(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            Icons.image_not_supported_outlined,
-            size: 48,
-            color: colorScheme.onSurfaceVariant.withOpacity(0.5),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'Preview not available',
-            style: textTheme.bodyMedium?.copyWith(
-              color: colorScheme.onSurfaceVariant.withOpacity(0.6),
+          const Spacer(flex: 2),
+          Expanded(
+            child: FittedBox(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.image_not_supported_outlined,
+                    size: 48,
+                    color: colorScheme.onSurfaceVariant.withOpacity(0.5),
+                  ),
+                  const SizedBox(height: 8),
+                  FittedBox(
+                    child: Text(
+                      'Preview not available',
+                      style: textTheme.bodyMedium?.copyWith(
+                        color: colorScheme.onSurfaceVariant.withOpacity(0.6),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
+          const Spacer(flex: 2),
         ],
       ),
     );
@@ -211,6 +224,36 @@ class _WidgetPreviewSidePanelState
     );
   }
 
+  void showTopSnackBar(BuildContext context, String message) {
+    final overlay = Overlay.of(context);
+    final overlayEntry = OverlayEntry(
+      builder: (context) => Positioned(
+        bottom: MediaQuery.of(context).padding.bottom + 16,
+        width: MediaQuery.of(context).size.width * 0.5,
+        right: 12,
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Material(
+            elevation: 6,
+            borderRadius: BorderRadius.circular(8),
+            color: Theme.of(context).colorScheme.secondary,
+            child: Padding(
+              padding: const EdgeInsets.all(12),
+              child: Text(
+                message,
+                style: const TextStyle(color: Colors.white),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+
+    overlay.insert(overlayEntry);
+    Future.delayed(const Duration(seconds: 2), () => overlayEntry.remove());
+  }
+
   Widget _buildInstallationSection(ThemeData theme, String installCommand) {
     final colorScheme = theme.colorScheme;
     final textTheme = theme.textTheme;
@@ -230,9 +273,7 @@ class _WidgetPreviewSidePanelState
         GestureDetector(
           onTap: () {
             _copyToClipboard(installCommand);
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text('Copied to clipboard')));
+            showTopSnackBar(context, "Copied to clipboard");
           },
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),

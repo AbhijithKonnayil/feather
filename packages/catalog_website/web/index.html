@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <!--
     If you are serving your web app in a path other than the root, change the
@@ -27,12 +28,70 @@
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png"/>
+  <link rel="icon" type="image/png" href="favicon.png" />
 
-  <title>catalog_website</title>
+  <title>Feather Catalog</title>
   <link rel="manifest" href="manifest.json">
+  <style>
+    body {
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #F7F8FC;
+      flex-direction: column;
+      font-family: Arial, sans-serif;
+      color: white;
+    }
+
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 5px solid #1B69C4;
+      border-top: 5px solid white;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+
 </head>
+
 <body>
   <script src="flutter_bootstrap.js" async></script>
+  <div id="loader-container">
+    <div class="spinner"></div>
+  </div>
+  <script src="flutter.js" defer></script>
+
+  <script>
+    window.addEventListener('load', function () {
+      const loaderContainer = document.getElementById('loader-container');
+
+      _flutter.loader.loadEntrypoint({
+        onEntrypointLoaded: async function (engineInitializer) {
+          const appRunner = await engineInitializer.initializeEngine();
+
+          // Fade out the loading spinner
+          loaderContainer.style.transition = 'opacity 0.5s ease-out';
+          loaderContainer.style.opacity = '0';
+
+          setTimeout(() => loaderContainer.remove(), 500);
+          await appRunner.runApp();
+        }
+      });
+    });
+  </script>
 </body>
+
 </html>

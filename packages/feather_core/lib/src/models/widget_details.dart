@@ -16,5 +16,5 @@ class WidgetDetails extends WidgetMeta {
   String get installCommand => 'feather add -s ${scope.name} $id';
   String getScreenshotFilename(Screens screen) => "${id}_${screen.name}.jpeg";
   String getScreenshotPath(Screens screen) =>
-      "screenshots/${scope.name}/${getScreenshotFilename(screen)}";
+      "assets/screenshots/${scope.name}/${getScreenshotFilename(screen)}";
 }

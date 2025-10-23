@@ -73,6 +73,7 @@ class PageMeta extends WidgetMeta<PageType, PageCategory> {
   factory PageMeta.fromJson(Map<String, dynamic> json) =>
       _$PageMetaFromJson(json);
 
+  @override
   Map<String, dynamic> toJson() => _$PageMetaToJson(this);
 }
 
@@ -91,6 +92,7 @@ class BlockMeta extends WidgetMeta<BlockType, BlockCategory> {
   factory BlockMeta.fromJson(Map<String, dynamic> json) =>
       _$BlockMetaFromJson(json);
 
+  @override
   Map<String, dynamic> toJson() => _$BlockMetaToJson(this);
 }
 
@@ -109,6 +111,7 @@ class ComponentMeta extends WidgetMeta<ComponentType, ComponentCategory> {
   factory ComponentMeta.fromJson(Map<String, dynamic> json) =>
       _$ComponentMetaFromJson(json);
 
+  @override
   Map<String, dynamic> toJson() => _$ComponentMetaToJson(this);
 }
 
@@ -118,7 +121,6 @@ class WidgetTypeConverter<T extends LabeledEnum>
 
   @override
   T fromJson(String json) {
-    print("JSON $json ");
     if (T == ComponentType) {
       return ComponentType.values.byName(json) as T;
     } else if (T == BlockType) {

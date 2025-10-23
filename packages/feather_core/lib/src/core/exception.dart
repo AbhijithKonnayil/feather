@@ -2,7 +2,7 @@ import 'enums/exit_code.dart';
 
 /// Base class for all Feather CLI errors
 class FException implements Exception {
-  FException(this.message, {this.exitCode = ExitCode.software}) {}
+  FException(this.message, {this.exitCode = ExitCode.software});
   final String message;
   final ExitCode exitCode; // default = software error
 

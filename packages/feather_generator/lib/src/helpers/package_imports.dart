@@ -4,11 +4,10 @@ import 'package:analyzer/dart/element/element.dart';
 import 'package:feather_core/feather_core.dart';
 
 class PackageImportsHelper {
-  static late final FAppLogger logger;
-
   PackageImportsHelper([FAppLogger? logger]) {
     logger = logger ?? FAppLogger();
   }
+  static late final FAppLogger logger;
 
   /// Extracts the raw URI strings (best-effort) imported by the entire library
   /// that contains [element]. Uses canonical URIs of imported libraries.
@@ -35,7 +34,7 @@ class PackageImportsHelper {
     required List<String> allowedPackages,
   }) {
     for (final import in importedPackages) {
-      bool isAllowed = allowedPackages.any(
+      final isAllowed = allowedPackages.any(
         import.startsWith,
       );
       if (!isAllowed) {
@@ -73,7 +72,7 @@ Set<String> getLibraryPackageImports(Element element) {
   // Iterate all fragments (defining unit + parts) and collect their import directives.
   for (final fragment in library.fragments) {
     for (final libImport in fragment.libraryImports) {
-      print("lib > $libImport");
+      print('lib > $libImport');
       final importedLib = libImport.importedLibrary;
       final uri = importedLib?.uri; // canonical uri of imported library
       if (uri == null) continue;

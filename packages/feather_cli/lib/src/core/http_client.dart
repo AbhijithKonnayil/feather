@@ -22,6 +22,8 @@ final annotationRegex = RegExp(
 );
 
 class FHttpClient {
+  // Factory constructor to return the same instance
+  factory FHttpClient() => _instance;
   // Private constructor
   FHttpClient._internal() {
     _httpClient = HttpClient();
@@ -30,9 +32,6 @@ class FHttpClient {
 
   // Singleton instance
   static final FHttpClient _instance = FHttpClient._internal();
-
-  // Factory constructor to return the same instance
-  factory FHttpClient() => _instance;
 
   late final HttpClient _httpClient;
 

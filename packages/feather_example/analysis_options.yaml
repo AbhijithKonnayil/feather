@@ -1,1 +1,10 @@
-include: package:flutter_lints/flutter.yaml
+# Include the root analysis options
+include: ../../analysis_options.yaml
+
+# Package-specific analysis options can be added below
+# For example, to include specific lints or disable some rules:
+# linter:
+#   rules:
+#     - always_declare_return_types
+#     - avoid_print
+

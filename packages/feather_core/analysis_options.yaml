@@ -1,3 +1,13 @@
+# Include the root analysis options
+include: ../../analysis_options.yaml
+
+# Package-specific analysis options can be added below
+# For example, to include specific lints or disable some rules:
+# linter:
+#   rules:
+#     - always_declare_return_types
+#     - avoid_print
+
 # This file configures the static analysis results for your project (errors,
 # warnings, and lints).
 #
@@ -11,7 +21,6 @@
 # (the recommended set includes the core lints).
 # The core lints are also what is used by pub.dev for scoring packages.
 
-include: package:lints/recommended.yaml
 
 # Uncomment the following section to specify additional rules.
 

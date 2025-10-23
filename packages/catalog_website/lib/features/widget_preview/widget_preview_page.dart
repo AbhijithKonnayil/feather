@@ -184,12 +184,12 @@ class WidgetPreviewPage extends StatelessWidget {
   }) async {
     try {
       // Ensure filename has an image extension
-      final normalizedName = fileName.toLowerCase().endsWith('.png')
+      final normalizedName = fileName.toLowerCase().endsWith('.jpeg')
           ? fileName
-          : '$fileName.png';
+          : '$fileName.jpeg';
 
       // Build a data URL to avoid Blob/typed array interop issues
-      final dataUrl = 'data:image/png;base64,' + base64Encode(bytes);
+      final dataUrl = 'data:image/jpeg;base64,${base64Encode(bytes)}';
 
       // Create a hidden <a> element for download
       final anchor = web.HTMLAnchorElement()

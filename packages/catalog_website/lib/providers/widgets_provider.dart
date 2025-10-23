@@ -19,7 +19,7 @@ class WidgetsNotifier extends Notifier<List<WidgetDetails>> {
 
 @riverpod
 List<WidgetDetails> filteredWidgetsNotifier(Ref ref) {
-  final Map<WidgetScope, List<WidgetDetails>> _types = {
+  final Map<WidgetScope, List<WidgetDetails>> types = {
     WidgetScope.block: blockList,
     WidgetScope.component: componentList,
     WidgetScope.page: pageList,
@@ -28,7 +28,7 @@ List<WidgetDetails> filteredWidgetsNotifier(Ref ref) {
   final selectedScope = ref.watch(selectedScopeProvider);
   final query = ref.watch(searchQueryProvider).toLowerCase();
 
-  return _types[selectedScope]!
+  return types[selectedScope]!
       .where(
         (element) =>
             element.categories.contains(selectedSidebarItem) ||

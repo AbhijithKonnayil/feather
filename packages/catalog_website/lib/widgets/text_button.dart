@@ -7,12 +7,12 @@ class FTextButton extends StatelessWidget {
   final Color? textColor;
 
   const FTextButton({
-    Key? key,
+    super.key,
     required this.label,
     required this.onPressed,
     this.color,
     this.textColor,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

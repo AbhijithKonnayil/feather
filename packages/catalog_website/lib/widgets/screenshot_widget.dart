@@ -22,14 +22,14 @@ class ScreenshotCaptureWidget extends StatefulWidget {
   final Function(Uint8List) onScreenshot;
 
   const ScreenshotCaptureWidget({
-    Key? key,
+    super.key,
     required this.child,
     required this.controller,
     this.fileName = 'screenshot.png',
     this.filePath,
     this.pixelRatio = 3.0,
     required this.onScreenshot,
-  }) : super(key: key);
+  });
 
   @override
   State<ScreenshotCaptureWidget> createState() =>

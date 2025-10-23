@@ -12,7 +12,7 @@ class Sidebar extends ConsumerStatefulWidget {
 
 class _SidebarState extends ConsumerState<Sidebar>
     with TickerProviderStateMixin {
-  static const double collapsedWidth = 60.0;
+  static const double collapsedWidth = 65.0;
   static const double expandedWidth = 240.0;
 
   bool isExpanded = true;
@@ -103,44 +103,6 @@ class _SidebarState extends ConsumerState<Sidebar>
                   },
                 ),
               ),
-
-              // User profile or settings
-              /*   Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                decoration: BoxDecoration(
-                  border: Border(
-                    top: BorderSide(
-                      color: theme.dividerColor.withOpacity(0.1),
-                      width: 1,
-                    ),
-                  ),
-                ),
-                child: ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  leading: CircleAvatar(
-                    backgroundColor: theme.colorScheme.primary.withOpacity(0.1),
-                    child: Icon(Icons.person, color: theme.colorScheme.primary),
-                  ),
-                  title: AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 200),
-                    child: isExpanded
-                        ? Text(
-                            'User Name',
-                            style: theme.textTheme.bodyMedium,
-                            overflow: TextOverflow.ellipsis,
-                          )
-                        : const SizedBox.shrink(),
-                  ),
-                  trailing: isExpanded
-                      ? Icon(
-                          Icons.arrow_drop_down,
-                          color: theme.textTheme.bodySmall?.color,
-                        )
-                      : null,
-                  onTap: () {},
-                  dense: true,
-                ),
-              ), */
             ],
           ),
         ),
@@ -150,33 +112,29 @@ class _SidebarState extends ConsumerState<Sidebar>
 
   Container buildCollapseIcon() {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          Container(
-            alignment: Alignment.centerRight,
-            child: IconButton(
-              icon: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 300),
-                transitionBuilder: (child, animation) {
-                  return RotationTransition(
-                    turns: Tween<double>(
-                      begin: isExpanded ? 0.5 : 0,
-                      end: isExpanded ? 0 : 0.5,
-                    ).animate(animation),
-                    child: child,
-                  );
-                },
-                child: Icon(
-                  isExpanded ? Icons.chevron_left : Icons.menu,
-                  key: ValueKey<bool>(isExpanded),
-                ),
+          IconButton(
+            icon: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              transitionBuilder: (child, animation) {
+                return RotationTransition(
+                  turns: Tween<double>(
+                    begin: isExpanded ? 0.5 : 0,
+                    end: isExpanded ? 0 : 0.5,
+                  ).animate(animation),
+                  child: child,
+                );
+              },
+              child: Icon(
+                isExpanded ? Icons.chevron_left : Icons.menu,
+                key: ValueKey<bool>(isExpanded),
               ),
-              onPressed: _toggleExpanded,
-              tooltip: isExpanded ? 'Collapse' : 'Expand',
             ),
+            onPressed: _toggleExpanded,
+            tooltip: isExpanded ? 'Collapse' : 'Expand',
           ),
         ],
       ),

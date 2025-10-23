@@ -78,7 +78,7 @@
     window.addEventListener('load', function () {
       const loaderContainer = document.getElementById('loader-container');
 
-      _flutter.loader.loadEntrypoint({
+      _flutter.loader.load({
         onEntrypointLoaded: async function (engineInitializer) {
           const appRunner = await engineInitializer.initializeEngine();
 

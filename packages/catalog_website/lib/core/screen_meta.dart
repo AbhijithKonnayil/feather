@@ -2,6 +2,8 @@ import 'package:device_preview/device_preview.dart';
 import 'package:feather_core/feather_core.dart';
 import 'package:flutter/material.dart';
 
+import 'preview_sizes.dart';
+
 class ScreenMeta {
   final Size size;
   final IconData icon;
@@ -20,7 +22,10 @@ class ScreenMeta {
   double get aspectRatio => size.aspectRatio;
   static final Map<Screens, ScreenMeta> _previewMetaData = {
     Screens.mobile: ScreenMeta(
-      size: const Size(360, 800),
+      size: Size(
+        previewSizes[Screens.mobile]![0],
+        previewSizes[Screens.mobile]![1],
+      ),
       icon: Icons.phone_android,
       platform: TargetPlatform.android,
       deviceInfo: (ScreenMeta meta, Screens screen) => DeviceInfo.genericPhone(
@@ -32,7 +37,10 @@ class ScreenMeta {
       ),
     ),
     Screens.tablet: ScreenMeta(
-      size: const Size(1024, 1366),
+      size: Size(
+        previewSizes[Screens.tablet]![0],
+        previewSizes[Screens.tablet]![1],
+      ),
       icon: Icons.tablet_android,
       platform: TargetPlatform.android,
       deviceInfo: (ScreenMeta meta, Screens screen) => DeviceInfo.genericTablet(
@@ -44,7 +52,10 @@ class ScreenMeta {
       ),
     ),
     Screens.desktop: ScreenMeta(
-      size: const Size(1920, 1080),
+      size: Size(
+        previewSizes[Screens.desktop]![0],
+        previewSizes[Screens.desktop]![1],
+      ),
       icon: Icons.desktop_windows,
       platform: TargetPlatform.windows,
       deviceInfo: (ScreenMeta meta, Screens screen) =>

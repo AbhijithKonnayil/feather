@@ -58,12 +58,10 @@ class FeatherTheme {
 
     colorScheme: const ColorScheme.light(
       primary: AppColors.primaryBlue,
-      secondary: AppColors.primaryTeal, // Using the lighter teal as secondary
-      background: AppColors.lightBackground,
+      secondary: AppColors.primaryTeal,
       surface: AppColors.lightSurface,
       onPrimary: Colors.white,
       onSecondary: Colors.white,
-      onBackground: AppColors.lightPrimaryText,
       onSurface: AppColors.lightPrimaryText,
       error: AppColors.error,
       onError: Colors.white,
@@ -100,10 +98,10 @@ class FeatherTheme {
           ).copyWith(
             // Define a custom background for the button that uses the gradient
             // This is a common pattern for gradient buttons in Flutter
-            backgroundColor: MaterialStateProperty.resolveWith<Color>((
-              Set<MaterialState> states,
+            backgroundColor: WidgetStateProperty.resolveWith<Color>((
+              Set<WidgetState> states,
             ) {
-              if (states.contains(MaterialState.disabled)) {
+              if (states.contains(WidgetState.disabled)) {
                 return Colors.grey; // Or a disabled gradient
               }
               return Colors
@@ -146,11 +144,9 @@ class FeatherTheme {
     colorScheme: const ColorScheme.dark(
       primary: AppColors.primaryBlue,
       secondary: AppColors.primaryTeal,
-      background: AppColors.darkBackground,
       surface: AppColors.darkSurface,
       onPrimary: Colors.white,
       onSecondary: Colors.white,
-      onBackground: AppColors.darkPrimaryText,
       onSurface: AppColors.darkPrimaryText,
       error: AppColors.error,
       onError: Colors.white,
@@ -183,10 +179,10 @@ class FeatherTheme {
             ),
             textStyle: _darkTextTheme.labelLarge,
           ).copyWith(
-            backgroundColor: MaterialStateProperty.resolveWith<Color>((
-              Set<MaterialState> states,
+            backgroundColor: WidgetStateProperty.resolveWith<Color>((
+              Set<WidgetState> states,
             ) {
-              if (states.contains(MaterialState.disabled)) {
+              if (states.contains(WidgetState.disabled)) {
                 return Colors.grey;
               }
               return Colors.transparent;

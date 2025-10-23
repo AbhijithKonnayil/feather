@@ -35,6 +35,8 @@ class CatalogAppbar extends ConsumerWidget implements PreferredSizeWidget {
                   color: Theme.of(context).colorScheme.primary,
                 ),
               ),
+              SizedBox(width: 5),
+              Text("0.0.3", style: TextStyle(fontSize: 10)),
             ],
           ),
           toolbarHeight: 50,

@@ -1,6 +1,6 @@
 name: feather_core
-description: A starting point for Dart libraries or applications.
-version: 0.0.1
+description: Core infrastructure and shared utilities powering the Feather Design System
+version: 0.0.1-dev.1
 repository: https://github.com/AbhijithKonnayil/feather/tree/main/packages/feather_core
 
 environment:

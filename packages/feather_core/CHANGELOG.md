@@ -1,6 +1,10 @@
-## 0.0.1-dev.2
+## 0.0.1-dev.3
 
 - Fixed missing generated `.g.dart` files in published package.
+
+## 0.0.1-dev.2
+
+- mock release
 
 ## 0.0.1-dev.1
 

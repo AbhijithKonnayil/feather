@@ -1,9 +1,65 @@
 {
+  "gradient_tabbar_01": {
+    "id": "gradient_tabbar_01",
+    "name": "Gradient Tab Bar",
+    "description": "A simple GradientTabBar component for demo",
+    "import": "package:feather_ui/component/gradient_tabbar_01/gradient_tabbar_01.dart",
+    "selfFiles": [
+      {
+        "path": "component/gradient_tabbar_01/gradient_tabbar_01.dart"
+      }
+    ],
+    "example": "buildExampleWidgetFor_gradient_tabbar_01()",
+    "screens": [
+      "mobile"
+    ],
+    "types": [
+      "tabBar"
+    ],
+    "categories": [
+      "navigation"
+    ],
+    "scope": "component",
+    "packages_library": [],
+    "files": []
+  },
+  "skewed_tilted_button_01": {
+    "id": "skewed_tilted_button_01",
+    "name": "SkewedTiltedButton01",
+    "description": "A simple SkewedTiltedButton01 component for demo",
+    "import": "package:feather_ui/component/skewed_tilted_button_01/skewed_tilted_button_01.dart",
+    "selfFiles": [
+      {
+        "path": "component/skewed_tilted_button_01/skewed_tilted_button_01.dart"
+      }
+    ],
+    "example": "buildExampleWidgetFor_skewed_tilted_button_01()",
+    "screens": [
+      "mobile",
+      "desktop",
+      "tablet"
+    ],
+    "types": [
+      "button"
+    ],
+    "categories": [
+      "formsInputs",
+      "navigation"
+    ],
+    "scope": "component",
+    "packages_library": [],
+    "files": []
+  },
   "text_field_01": {
     "id": "text_field_01",
     "name": "TextField01",
     "description": "A simple TextField01 component for demo",
     "import": "package:feather_ui/component/text_field_01/text_field_01.dart",
+    "selfFiles": [
+      {
+        "path": "component/text_field_01/text_field_01.dart"
+      }
+    ],
     "example": "buildExampleWidgetFor_text_field_01()",
     "screens": [
       "mobile"

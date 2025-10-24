@@ -1,1 +1,28 @@
-{}
+{
+  "formly_contact_form": {
+    "id": "formly_contact_form",
+    "name": "Formly Contact Form",
+    "description": "A simple FormlyContactForm component for demo",
+    "import": "package:feather_ui/block/formly_contact_form/formly_contact_form.dart",
+    "selfFiles": [
+      {
+        "path": "block/formly_contact_form/formly_contact_form.dart"
+      }
+    ],
+    "example": "buildExampleWidgetFor_formly_contact_form()",
+    "screens": [
+      "mobile",
+      "tablet"
+    ],
+    "types": [
+      "cardBlock",
+      "formBlock"
+    ],
+    "categories": [
+      "cardBlock"
+    ],
+    "scope": "block",
+    "packages_library": [],
+    "files": []
+  }
+}

@@ -54,7 +54,7 @@ class FeatherCliCommandRunner extends CompletionCommandRunner<int> {
     try {
       final topLevelResults = parse(args);
       if (topLevelResults['verbose'] == true) {
-        //TODO
+
         _logger.setLogLevel(Level.verbose);
       }
       return await runCommand(topLevelResults) ?? ExitCode.success.code;

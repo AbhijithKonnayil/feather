@@ -11,6 +11,7 @@ abstract class WidgetMeta<T extends WidgetType, C extends WidgetCategory> {
     required this.description,
     required this.scope,
     required this.files,
+    this.selfFiles = const [],
     required this.screens,
     this.dependencies = const [],
     this.registryDependencies = const [],
@@ -24,12 +25,15 @@ abstract class WidgetMeta<T extends WidgetType, C extends WidgetCategory> {
   final List<String> dependencies;
   final List<String> registryDependencies;
   final List<FileMeta> files;
+  final List<FileMeta> selfFiles;
   @WidgetTypeConverter()
   final List<T> types;
   @WidgetTypeConverter()
   final List<C> categories;
   @WidgetTypeConverter()
   final List<Screens> screens;
+
+  List<FileMeta> get filesToDownload => [...selfFiles, ...files];
 
   static WidgetMeta fromJson(Map<String, dynamic> json) {
     final scope = json['scope'] as String?;
@@ -65,6 +69,7 @@ class PageMeta extends WidgetMeta<PageType, PageCategory> {
     required super.name,
     required super.description,
     super.files = const [],
+    super.selfFiles = const [],
     required super.types,
     required super.categories,
     required super.screens,
@@ -84,6 +89,7 @@ class BlockMeta extends WidgetMeta<BlockType, BlockCategory> {
     required super.name,
     required super.description,
     super.files = const [],
+    super.selfFiles = const [],
     required super.types,
     required super.categories,
     required super.screens,
@@ -104,6 +110,7 @@ class ComponentMeta extends WidgetMeta<ComponentType, ComponentCategory> {
     required super.description,
     super.files = const [],
     required super.types,
+    super.selfFiles = const [],
     required super.categories,
     required super.screens,
   }) : super(scope: WidgetScope.component);

@@ -60,10 +60,11 @@ class AddCommand extends FCommand {
   }
 
   Future<void> downloadFiles(WidgetMeta widgetMeta) async {
+    final futuresList = widgetMeta.filesToDownload.map(
+      (e) => httpClient.downloadFile(e.absolutePath(), e.path),
+    );
     await Future.wait(
-      widgetMeta.files.map(
-        (e) => httpClient.downloadFile(e.absolutePath(), e.path),
-      ),
+      futuresList,
     );
   }
 

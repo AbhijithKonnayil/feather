@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:change_case/change_case.dart';
 import 'package:feather_cli/src/core/command.dart';
@@ -43,7 +42,7 @@ class AddWidgetCommand extends FCommand {
         )
         .toSnakeCase();
     final fileName = widgetId.toSnakeCase();
-    final featherUiRoot = FileUtils.findProjectRoot(Directory.current);
+    //final featherUiRoot = FileUtils.findProjectRoot(Directory.current);
 
     final widgetFilePath = 'lib/$type/$fileName/$fileName.dart';
     final exampleFilePath = 'lib/$type/$fileName/$fileName.example.dart';

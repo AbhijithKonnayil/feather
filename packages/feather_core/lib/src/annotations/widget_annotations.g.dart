@@ -15,6 +15,11 @@ PageMeta _$PageMetaFromJson(Map<String, dynamic> json) => PageMeta(
           ?.map((e) => FileMeta.fromJson(e as Map<String, dynamic>))
           .toList() ??
       const [],
+  selfFiles:
+      (json['selfFiles'] as List<dynamic>?)
+          ?.map((e) => FileMeta.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      const [],
   types: (json['types'] as List<dynamic>)
       .map((e) => $enumDecode(_$PageTypeEnumMap, e))
       .toList(),
@@ -31,6 +36,7 @@ Map<String, dynamic> _$PageMetaToJson(PageMeta instance) => <String, dynamic>{
   'name': instance.name,
   'description': instance.description,
   'files': instance.files,
+  'selfFiles': instance.selfFiles,
   'types': instance.types.map((e) => _$PageTypeEnumMap[e]!).toList(),
   'categories': instance.categories
       .map((e) => _$PageCategoryEnumMap[e]!)
@@ -79,6 +85,11 @@ BlockMeta _$BlockMetaFromJson(Map<String, dynamic> json) => BlockMeta(
           ?.map((e) => FileMeta.fromJson(e as Map<String, dynamic>))
           .toList() ??
       const [],
+  selfFiles:
+      (json['selfFiles'] as List<dynamic>?)
+          ?.map((e) => FileMeta.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      const [],
   types: (json['types'] as List<dynamic>)
       .map((e) => $enumDecode(_$BlockTypeEnumMap, e))
       .toList(),
@@ -95,6 +106,7 @@ Map<String, dynamic> _$BlockMetaToJson(BlockMeta instance) => <String, dynamic>{
   'name': instance.name,
   'description': instance.description,
   'files': instance.files,
+  'selfFiles': instance.selfFiles,
   'types': instance.types.map((e) => _$BlockTypeEnumMap[e]!).toList(),
   'categories': instance.categories
       .map((e) => _$BlockCategoryEnumMap[e]!)
@@ -142,6 +154,11 @@ ComponentMeta _$ComponentMetaFromJson(Map<String, dynamic> json) =>
       types: (json['types'] as List<dynamic>)
           .map((e) => $enumDecode(_$ComponentTypeEnumMap, e))
           .toList(),
+      selfFiles:
+          (json['selfFiles'] as List<dynamic>?)
+              ?.map((e) => FileMeta.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
       categories: (json['categories'] as List<dynamic>)
           .map((e) => $enumDecode(_$ComponentCategoryEnumMap, e))
           .toList(),
@@ -156,6 +173,7 @@ Map<String, dynamic> _$ComponentMetaToJson(ComponentMeta instance) =>
       'name': instance.name,
       'description': instance.description,
       'files': instance.files,
+      'selfFiles': instance.selfFiles,
       'types': instance.types.map((e) => _$ComponentTypeEnumMap[e]!).toList(),
       'categories': instance.categories
           .map((e) => _$ComponentCategoryEnumMap[e]!)

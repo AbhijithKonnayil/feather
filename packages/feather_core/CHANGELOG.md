@@ -1,3 +1,7 @@
-## 0.0.1
+## 0.0.1-dev.2
+
+- Fixed missing generated `.g.dart` files in published package.
+
+## 0.0.1-dev.1
 
 - Initial version.
